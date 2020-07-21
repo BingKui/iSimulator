@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@components/*": ["src/components/*"],
+            "@styles/*": ["src/styles/*"],
+            "@store/*": ["src/store/*"],
+            "@router/*": ["src/router/*"],
+            "@assets/*": ["src/assets/*"],
+            "@common/*": ["src/common/*"],
+            "@views/*": ["src/views/*"],
+            "@mock/*": ["src/mock/*"],
+            "@constants/*": ["src/constants/*"],
+            "@node": ["src/node.js"],
+            "@electron": ["src/electron.js"],
+        },
+        "target": "ES6",
+        "module": "commonjs",
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true
+    },
+    "include": [
+        "src/**/*", "src/main.js"
+    ],
+    "exclude": ["node_modules", "dist"]
+}

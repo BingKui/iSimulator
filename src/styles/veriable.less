@@ -1,0 +1,314 @@
+// 颜色
+// 颜色定义文件
+@primary: #2d8cf0;
+@info:    #2db7f5;
+@success: #19be6b;
+@warn:    #ff9900;
+@danger:  #ed4014;
+
+@primary-light: #5cadff;
+@primary-dark:  #2b85e4;
+@title-color:   #17233d;
+@content-color: #515a6e;
+@tip-color:     #808695;
+@disable-color: #c5c8ce;
+
+// 灰度定义
+@white:       #ffffff;
+@gray:        #CCCCCC;
+@gray-light:  #e5e5e5;
+@gray-darker: #666666;
+@gray-dark:   #999999;
+
+// 其他颜色定义
+// color variables
+@black:         #000000;
+@red:           #DE2022;
+@blue:          #4A90E2;
+@orange:        #ff976a;
+@orange-dark:   #ed6a0c;
+@orange-light:  #fffbe8;
+@green:         #4b0;
+@yellow:        #FFFAD3;
+
+// default colors
+@text-color:          @content-color;
+@border-color:      #dcdee2;
+@divider-color:     #e8eaec;
+@background-color:  #f8f8f9;
+
+// 字体
+// 字体定义
+@font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
+
+// 字号
+@font-size-mini: 10px;
+@font-size-sm:   12px;
+@font-size:      14px;
+@font-size-md:   16px;
+@font-size-lg:   18px;
+
+// 字体粗细
+@font-weight:       400;
+@font-weight-bold:  bold;
+
+// border 相关
+@border: 1px solid @border-color;
+@border-radius: 4px;
+.border-radius() {
+    border-radius: @border-radius;
+}
+
+// 字体相应的方法
+.font-size(@size) {
+    font-size: @size * 1px;
+    line-height: @size + 8px;
+}
+.font-size-mini() {
+    font-size: @font-size-mini;
+    line-height: @font-size-mini + 8px;
+}
+.font-size-sm() {
+    font-size: @font-size-sm;
+    line-height: @font-size-sm + 8px;
+}
+.font-size() {
+    font-size: @font-size;
+    line-height: @font-size + 8px;
+}
+.font-size-md() {
+    font-size: @font-size-md;
+    line-height: @font-size-md + 8px;
+}
+.font-size-lg() {
+    font-size: @font-size-lg;
+    line-height: @font-size-lg + 8px;
+}
+.font-weight(@weight) {
+    font-weight: @weight;
+}
+
+// 长度、尺寸定义文件
+// 基数
+@_base_line: 5px;
+
+@gap-sm: @_base_line;
+@gap: @_base_line * 2;
+@gap-md: @_base_line * 3;
+@gap-lg: @_base_line * 4; 
+
+// 方法
+// flex
+.flex() {
+    display: flex;
+}
+
+.flex-column() {
+    .flex();
+    flex-direction: column;
+}
+
+.flex-center() {
+    .flex();
+    justify-content: center;
+    align-items: center;
+}
+.flex-vertical-center() {
+    .flex();
+    align-items: center;
+}
+
+.flex-horizontal-center() {
+    .flex();
+    justify-content: center;
+}
+
+.flex-row-center() {
+    .flex-center();
+    flex-direction: row;
+}
+
+.flex-column-center() {
+    .flex-center();
+    flex-direction: column;
+}
+.flex-row-between() {
+    .flex();
+    flex-direction: row;
+    justify-content: space-between;
+}
+.flex-column-between() {
+    .flex();
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+// text-align
+.t-l() {
+    text-align: left;
+}
+
+.t-r() {
+    text-align: right;
+}
+
+.t-c() {
+    text-align: center;
+}
+
+// margin & padding
+.m(@num) {
+    margin: @num * 1px;
+}
+
+.m-t(@num) {
+    margin-top: @num * 1px;
+}
+
+.m-b(@num) {
+    margin-bottom: @num * 1px;
+}
+
+.m-r(@num) {
+    margin-right: @num * 1px;
+}
+
+.m-l(@num) {
+    margin-left: @num * 1px;
+}
+
+.m-v(@num) {
+    .m-t(@num);
+    .m-b(@num);
+}
+
+.m-h(@num) {
+    .m-l(@num);
+    .m-r(@num);
+}
+
+.p(@num) {
+    padding: @num * 1px;
+}
+
+.p-t(@num) {
+    padding-top: @num * 1px;
+}
+
+.p-b(@num) {
+    padding-bottom: @num * 1px;
+}
+
+.p-r(@num) {
+    padding-right: @num * 1px;
+}
+
+.p-l(@num) {
+    padding-left: @num * 1px;
+}
+
+.p-v(@num) {
+    .p-t(@num);
+    .p-b(@num);
+}
+
+.p-h(@num) {
+    .p-l(@num);
+    .p-r(@num);
+}
+
+.text-overflow () {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.text-overflow-line (@num) {
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: @num;
+    overflow: hidden;
+}
+
+.clearfix () {
+    &:after {
+        visibility: hidden;
+        display: block;
+        font-size: 0;
+        content: " ";
+        clear: both;
+        height: 0;
+    }
+}
+
+.border-line() {
+    position: relative;
+    &::after {
+        height: 1px;
+        background-color: @border-color;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transform: scaleY(.5);
+        content: '';
+    }
+}
+
+.border-line(@color, @left, @right) {
+    position: relative;
+    &::after {
+        height: 1px;
+        background-color: @color;
+        position: absolute;
+        bottom: 0;
+        left: @left;
+        right: @right;
+        transform: scaleY(.5);
+        content: '';
+    }
+}
+
+.border-line-top() {
+    position: relative;
+    &::after {
+        height: 1px;
+        background-color: @border-color;
+        position: absolute;
+        top: 0;
+        left: @gap-md;
+        right: @gap-md;
+        transform: scaleY(.5);
+        content: '';
+    }
+}
+
+// 滚动相关
+.scroll-x() {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    display: block;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+.scroll-y() {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    display: block;
+    -webkit-overflow-scrolling: touch;
+}
+
+.linear-right-top(@colorOne, @colorTwo) {
+    background-image: linear-gradient(to right top, @colorOne, @colorTwo);
+}
+.linear-right-bottom(@colorOne, @colorTwo) {
+    background-image: linear-gradient(to right bottom, @colorOne, @colorTwo);
+}
+.linear-right(@colorOne, @colorTwo) {
+    background-image: linear-gradient(to right, @colorOne, @colorTwo);
+}
+.linear-background-color(@colorOne, @colorTwo) {
+    background-image: linear-gradient(to right , @colorOne, @colorTwo);
+}
