@@ -33,6 +33,17 @@ export const PageBack = () => {
     ipcRenderer.send('back');
 };
 
+export const SetWinTop = (flag) => {
+    ipcRenderer.send('set-window-fixed', flag);
+};
+
+export const HideView = (flag) => {
+    ipcRenderer.send('hide-view');
+};
+export const ShowView = (flag) => {
+    ipcRenderer.send('show-view');
+};
+
 export const CloseView = () => {
     ipcRenderer.send('close');
     return new Promise((reslove, reject) => {

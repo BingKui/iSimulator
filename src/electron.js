@@ -154,7 +154,22 @@ const AddBrowerView = (win) => {
     ipcMain.on('open-devtools', (event, url, condition) => {
         view.webContents.openDevTools();
         view.webContents.executeJavaScript('console.clear();');
-
+    });
+    ipcMain.on('hide-view', (event, url, condition) => {
+        view.setBounds({
+            x: 0,
+            y: 60,
+            width: 0,
+            height: 0,
+        });
+    });
+    ipcMain.on('show-view', (event, url, condition) => {
+        view.setBounds({
+            x: 0,
+            y: 60,
+            width: 375,
+            height: 667,
+        });
     });
     ipcMain.on('close', (event, url, condition) => {
         win.removeBrowserView(view);

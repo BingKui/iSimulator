@@ -16,7 +16,7 @@ function createWindow() {
      * Initial window options
      */
     mainWindow = new BrowserWindow({
-        title: 'VET',
+        title: 'Emulator',
         height: 727,
         width: 375,
         center: true, // 窗口默认居中
@@ -38,6 +38,7 @@ function createWindow() {
             scrollBounce: false,
             nodeIntegration: true,
             // webSecurity: false,
+            webviewTag: true,
         },
     });
     if (isDev) {
