@@ -1,6 +1,8 @@
 <template>
     <div class="v-menu-item" @click="menuClick">
-        <ExtIcon :name="icon" :size="30" @click="menuClick" />
+        <div class="menu-icon">
+            <ExtIcon :name="icon" :size="30" color="#000000" @click="menuClick" />
+        </div>
         <div class="menu-name">{{name}}</div>
     </div>
 </template>
@@ -33,20 +35,27 @@ export default {
 
 <style lang="less">
 .v-menu-item {
-    height: 80px;
-    // width: 100px;
-    border-radius: 4px;
-    border: @border;
     cursor: pointer;
     .flex-column-center();
-    background-color: white;
     user-select: none;
+    .m-t(@gap-md);
+    .menu-icon {
+        width: 65px;
+        height: 65px;
+        background-color: white;
+        .flex-center();
+        border-radius: @gap-md;
+    }
     .menu-name {
         font-size: 12px;
         .text-overflow();
+        .m-t(@gap);
+        color: @gray-darker;
     }
     &:hover {
-        box-shadow: 0 0 8px #999;
+        .menu-icon {
+            box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+        }
     }
 }
 </style>

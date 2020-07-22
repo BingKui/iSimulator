@@ -4,99 +4,72 @@
             <div class="header-back" v-if="isCanBack" @click="goback">
                 <Icon type="ios-arrow-back" size="25" />
             </div>
-
             <div class="header-title">{{pageTitle}}</div>
-            <div class="header-menu" v-if="isOpened">
-                <div class="menu-item">
-                    <Icon type="ios-more" @click="openMenu" title="DevTools" size="20" />
-                </div>
-                <div class="menu-item">
-                    <Icon type="md-close" @click="close" title="关闭" size="20" />
+            <div class="header-menu">
+                <template v-if="isOpened">
+                    <div class="menu-item">
+                        <ExtIcon name="Header_Menu" @click="openMenu" title="菜单" :size="18" />
+                    </div>
+                    <div class="menu-item">
+                        <ExtIcon name="Header_Close" @click="close" title="关闭" :size="18" />
+                    </div>
+                </template>
+                <div v-else class="menu-item">
+                    <ExtIcon name="Header_Exit" @click="exitApp" title="退出应用" :size="18" />
                 </div>
             </div>
         </div>
         <div class="main-content" v-if="!isOpened">
-            <Input placeholder="输入url" size="large" type="textarea" :rows="4" v-model="url" />
-            <Button class="margin-top" type="primary" size="large" long @click="openUrl">打开链接</Button>
-        </div>
-        <div class="main-content" v-else>
-            页面调试中
-        </div>
-        <Drawer
-            title="我是标题"
-            :visible.sync="drawer"
-            :with-header="false"
-            direction="btt"
-            :append-to-body="true"
-            custom-class="menu-element"
-            :wrapperClosable="false"
-            size="60%"
-            @closed="drawerClosed"
-        >
-            <div class="menu-title">
-                <div class="title-name">菜单</div>
-                <div class="close-action" @click="closeMenu">
-                    <Icon type="md-close" title="关闭菜单" size="25" />
-                </div>
+            <div class="input-elment">
+                <Input class="input-el" placeholder="输入url" size="large" type="textarea" :rows="4" v-model="url" />
+                <Button class="open-action margin-top" type="primary" size="large" long @click="openUrl">打开链接</Button>
             </div>
-            <div class="menu-list">
-                <Row :gutter="15">
-                    <Col span="6">
-                        <MenuItem name="DevTools" icon="Menu_Devtools" @click="openTools" />
-                    </Col>
-                    <Col span="6">
-                        <MenuItem :name="this.isTop ? '取消置顶' : '窗口置顶'" icon="Menu_Fixed" @click="setWindowTop" />
-                    </Col>
-                </Row>
-            </div>
-        </Drawer>
+            <template v-if="historyList && (historyList.length > 0)">
+                <div class="history-name">历史记录</div>
+                <ScrollBar class="history-list">
+                    <HistoryItem v-for="item in historyList" :url="item.url" :id="item._id" :key="item._id" @openHistory="openBrowser" @delHistory="delHistory" />
+                </ScrollBar>
+            </template>
+        </div>
+        <div class="main-content-tip" v-else>
+            <img class="test-logo" src="../assets/testing.svg" alt="">
+            <div class="test-text">页面调试中</div>
+        </div>
+        <Menu ref="menu" @menuClose="menuClose" />
     </div>
 </template>
 
 <script>
-import { Button, Divider, Input, Message, Icon, Row, Col } from 'view-design';
-import { Drawer, Card } from 'element-ui';
-import MenuItem from './MenuItem';
-import { OpenBrowserView, OpenDevTools, CloseView, BindTitleChange,
-    BindUrlChange, PageBack, SetWinTop, HideView, ShowView } from '@common/common';
+import { Button, Input } from 'view-design';
+import HistoryItem from './HistoryItem';
+import ScrollBar from '@components/ScrollBar';
+import ExtIcon from '@components/ExtIcon';
+import Menu from './Menu';
+import { OpenBrowserView, CloseView, BindTitleChange,
+    BindUrlChange, PageBack, HideView, ShowView, ExitApp } from '@common/common';
 import { TipError, TipLoading } from '@common/tip';
+import { addItem, getAllItems, delItem } from '@common/db';
+import DB_NAME from '@constants/db';
 export default {
     name: 'Main', // 主页面
     components: {
         Button,
-        Divider,
         Input,
-        Icon,
-        Drawer,
-        Card,
-        MenuItem,
-        Row,
-        Col,
+        HistoryItem,
+        ScrollBar,
+        ExtIcon,
+        Menu,
     },
     data() {
         const _this = this;
         return {
-            pageTitle: '模拟器',
+            pageTitle: 'Emulator',
             url: '',
             drawer: false,
             isOpened: false,
             isCanBack: false,
             isTop: false,
-            menuList: [{
-                name: 'DevTools',
-                icon: 'Menu_Devtools',
-                action: () => {
-                    // _this.openTools();
-                    OpenDevTools();
-                    this.closeMenu();
-                },
-            }, {
-                name: this.isTop ? '取消置顶' : '置顶',
-                icon: 'Menu_Fixed',
-                action: () => {
-                    _this.setWindowTop();
-                },
-            }],
+            historyList: [],
         };
     },
     mounted() {
@@ -108,46 +81,51 @@ export default {
         BindUrlChange(flag => {
             _this.isCanBack = flag;
         });
+        this.getAllHistory();
     },
     methods: {
         async openUrl() {
             const flag = /^((https|http)?:\/\/)/.test(this.url);
             if (flag) {
-                Message.loading({
-                    content: '加载中...',
-                    top: '15',
+                await this.openBrowser();
+                // 本地数据库添加记录
+                await addItem(DB_NAME.history, {
+                    url: this.url
                 });
-                const result = await OpenBrowserView(this.url);
-                this.isOpened = true;
             } else {
                 TipError('不是正确的URL');
             }
+        },
+        async openBrowser(url) {
+            await OpenBrowserView(url || this.url);
+            this.isOpened = true;
+        },
+        async getAllHistory() {
+            const list = await getAllItems(DB_NAME.history);
+            console.log('获取所有历史记录：', list);
+            this.historyList = list;
+        },
+        async delHistory(id) {
+            await delItem(DB_NAME.history, id);
+            await this.getAllHistory();
         },
         goback() {
             PageBack();
         },
         openMenu() {
             HideView();
-            this.drawer = true;
+            this.$refs.menu.showMenu();
         },
-        closeMenu() {
-            this.drawer = false;
-        },
-        drawerClosed() {
+        menuClose() {
             ShowView();
-        },
-        openTools() {
-            OpenDevTools();
-            this.closeMenu();
-        },
-        setWindowTop() {
-            this.isTop = !this.isTop;
-            SetWinTop(this.isTop);
-            this.closeMenu();
         },
         async close() {
             await CloseView();
             Object.assign(this.$data, this.$options.data());
+            await this.getAllHistory();
+        },
+        exitApp() {
+            ExitApp();
         },
     },
 };
@@ -155,6 +133,8 @@ export default {
 
 <style lang="less">
 .v-main {
+    background-color: @background-color;
+    height: 100vh;
     .margin-top {
         .m-t(@gap);
     }
@@ -184,14 +164,16 @@ export default {
             font-weight: bold;
             color: #333;
             user-select: none;
+            max-width: 40%;
+            .text-overflow();
         }
         .header-menu {
             position: absolute;
-            right: @gap-sm;
+            right: @gap;
             top: @gap-md;
             border: @border;
             height: 30px;
-            width: 60px;
+            // width: 60px;
             .flex-row-center();
             border-radius: 4px;
             overflow: hidden;
@@ -199,6 +181,10 @@ export default {
                 width: 30px;
                 height: 30px;
                 .flex-center();
+                border-right: @border;
+                &:last-child {
+                    border-right: none;
+                }
                 &:active {
                     background-color: #999999;
                 }
@@ -206,37 +192,31 @@ export default {
         }
     }
     .main-content {
-        padding: 20px;
-    }
-}
-.el-drawer__container {
-    background-color: rgba(0, 0, 0, .4);
-    outline: none;
-}
-.menu-element {
-    outline: none;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    .menu-title {
-        padding-top: @gap-md;
-        height: 40px;
-        .p-h(@gap-lg);
-        .flex();
-        justify-content: space-between;
-        align-items: center;
-        .title-name {
-            font-size: 18px;
+        .input-elment {
+            .p(@gap-md);
+        }
+        .history-name {
+            font-size: 14px;
             font-weight: bold;
+            color: #000;
+            padding: 0 @gap-md;
             user-select: none;
         }
-        .close-action {
-            cursor: pointer;
+        .history-list {
+            height: 472px;
         }
     }
-    .menu-list {
-        overflow-x: auto;
-        overflow-y: hidden;
-        padding: @gap-md;
+    .main-content-tip {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .test-logo {
+            .m-v(30px);
+            width: 50px;
+        }
+        .test-text {
+            font-size: 12px;
+        }
     }
 }
 </style>

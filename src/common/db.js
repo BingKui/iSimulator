@@ -9,6 +9,7 @@ export const addItem = (name, object) => {
     ipcRenderer.send(`${name}-add`, object);
     return new Promise((reslove, reject) => {
         ipcRenderer.once(`${name}-add-result`, (event, result) => {
+            console.log('添加记录的结果为：', result);
             if (result) {
                 reslove(result);
             } else {

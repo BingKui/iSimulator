@@ -44,6 +44,10 @@ export const ShowView = (flag) => {
     ipcRenderer.send('show-view');
 };
 
+export const ExitApp = () => {
+    ipcRenderer.send('exit-app');
+};
+
 export const CloseView = () => {
     ipcRenderer.send('close');
     return new Promise((reslove, reject) => {

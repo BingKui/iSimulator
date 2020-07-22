@@ -30,18 +30,37 @@ const AddShortcuts = (key, action) => {
  * 添加菜单
  * @param {Array} menuList 菜单数组对象
  */
-const AddMenuList = (menuList=[]) => {
-    const template = [{
-        label: app.getName(),
-        submenu: [
-            { label: `关于${app.getName()}`, role: 'about', accelerator: 'Command+I', },
-            { label: '隐藏', role: 'hide' },
-            { type: 'separator' },
-            { label: '退出', role: 'quit', accelerator: 'Command+Q' }
-        ]
-    }];
-    const _t = template.concat(menuList);
-    const menu = Menu.buildFromTemplate(_t);
+const AddMenuList = () => {
+    const template = [
+        // { role: 'appMenu' }
+        ...(process.platform === 'darwin' ? [{
+            label: app.getName(),
+            submenu: [
+                { label: '关于Emulator', role: 'about' },
+                { type: 'separator' },
+                { label: '隐藏', role: 'hide' },
+                { label: '隐藏其他', role: 'hideothers' },
+                { label: '显示', role: 'unhide' },
+                { type: 'separator' },
+                { label: '退出Emulator', role: 'quit' }
+            ],
+        }] : []),
+        // { role: 'editMenu' }
+        {
+            label: '编辑',
+            submenu: [
+                { label: '撤销', role: 'undo' },
+                { label: '重做', role: 'redo' },
+                { type: 'separator' },
+                { label: '剪切', role: 'cut' },
+                { label: '复制', role: 'copy' },
+                { label: '粘贴', role: 'paste' },
+                { type: 'separator' },
+                { label: '全选', role: 'selectAll' }
+            ]
+        },
+    ];
+    const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
 };
 
@@ -187,7 +206,9 @@ const AddBrowerView = (win) => {
         // 置顶
         win.setAlwaysOnTop(flag);
     });
-
+    ipcMain.on('exit-app', (event) => {
+        win.destroy();
+    });
 };
 
 module.exports = {

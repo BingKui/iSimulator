@@ -2,15 +2,17 @@
 @import './overwrite.less';
 
 .v-body, body, html {
-    background-color: @background-color;
     font-family: @font-family;
     .m(0);
     .p(0);
+    background: rgba(0, 0, 0, 0);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
 }
 .v-body {
     height: 100vh;
     width: 100%;
     overflow: hidden;
-    border-radius: 4px;
     outline: none;
 }
