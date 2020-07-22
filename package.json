@@ -1,6 +1,6 @@
 {
   "name": "Emulator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "手机模拟器",
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -26,7 +26,7 @@
   "homepage": "",
   "build": {
     "productName": "Emulator",
-    "appId": "com.vet.template",
+    "appId": "cn.uiseed.emulator",
     "directories": {
       "output": "dist"
     },

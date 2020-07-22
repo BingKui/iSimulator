@@ -2,7 +2,7 @@
     <div class="v-main">
         <div class="main-header">
             <div class="header-back" v-if="isCanBack" @click="goback">
-                <Icon type="ios-arrow-back" size="25" />
+                <ExtIcon name="Header_Back" @click="goback" title="菜单" :size="25" />
             </div>
             <div class="header-title">{{pageTitle}}</div>
             <div class="header-menu">
@@ -32,8 +32,8 @@
             </template>
         </div>
         <div class="main-content-tip" v-else>
-            <img class="test-logo" src="../assets/testing.svg" alt="">
-            <div class="test-text">页面调试中</div>
+            <img class="test-logo" src="../assets/build.svg" alt="">
+            <div class="test-text">debugging......</div>
         </div>
         <Menu ref="menu" @menuClose="menuClose" />
     </div>
@@ -173,7 +173,6 @@ export default {
             top: @gap-md;
             border: @border;
             height: 30px;
-            // width: 60px;
             .flex-row-center();
             border-radius: 4px;
             overflow: hidden;
@@ -212,10 +211,10 @@ export default {
         align-items: center;
         .test-logo {
             .m-v(30px);
-            width: 50px;
+            width: 200px;
         }
         .test-text {
-            font-size: 12px;
+            font-size: 14px;
         }
     }
 }
