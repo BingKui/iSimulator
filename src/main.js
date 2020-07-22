@@ -44,7 +44,7 @@ function createWindow() {
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
-    AddBrowerView(mainWindow);
+    AddBrowerView(mainWindow, app);
     AddMenuList();
     // 添加数据库
     for (let key in DB_NAME) {

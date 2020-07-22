@@ -116,7 +116,7 @@ const AddDataBase = (name) => {
     });
 };
 
-const AddBrowerView = (win) => {
+const AddBrowerView = (win, app) => {
     let view;
     ipcMain.on('add-browerview', (event, url, condition) => {
         console.log('执行到这里');
@@ -207,7 +207,7 @@ const AddBrowerView = (win) => {
         win.setAlwaysOnTop(flag);
     });
     ipcMain.on('exit-app', (event) => {
-        win.destroy();
+        app.quit();
     });
 };
 
