@@ -1,9 +1,7 @@
-const { readMarkdownFile } = require('@node');
-
 /**
- * 加载markdown内容
- * @param {String} filename 文件名
+ * 判断是否是 url 链接
+ * @param {String} str 字符串
  */
-export const loadMarkdownFile = (filename) => {
-    return readMarkdownFile(filename);
+export const isUrl = (str) => {
+    return /^((https|http)?:\/\/)/.test(str);
 };

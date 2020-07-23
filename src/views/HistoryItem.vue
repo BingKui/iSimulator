@@ -3,13 +3,13 @@
         <div class="url-value">{{url}}</div>
         <div class="btn-list">
             <Button type="primary" @click="openHistory">打开</Button>
-            <Button type="error" @click="delHistory">删除</Button>
+            <Button type="danger" @click="delHistory">删除</Button>
         </div>
     </div>
 </template>
 
 <script>
-import { Card, Button } from 'view-design';
+import { Button } from 'element-ui';
 export default {
     name: 'HistoryItem', // 历史记录
     props: {
@@ -17,7 +17,6 @@ export default {
         id: String,
     },
     components: {
-        Card,
         Button,
     },
     methods: {

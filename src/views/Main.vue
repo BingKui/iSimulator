@@ -36,19 +36,22 @@
             <div class="test-text">debugging......</div>
         </div>
         <Menu ref="menu" @menuClose="menuClose" />
+        <TipDialog ref="tipDialog" :url="tipUrl" @tipResult="isOpenUrl" />
     </div>
 </template>
 
 <script>
-import { Button, Input } from 'view-design';
+import { Button, Input } from 'element-ui';
 import HistoryItem from './HistoryItem';
 import ScrollBar from '@components/ScrollBar';
 import ExtIcon from '@components/ExtIcon';
 import Menu from './Menu';
+import TipDialog from './TipDialog';
 import { OpenBrowserView, CloseView, BindTitleChange,
-    BindUrlChange, PageBack, HideView, ShowView, ExitApp } from '@common/common';
+    BindUrlChange, PageBack, HideView, ShowView, ExitApp, getClipboardValue } from '@common/common';
+import { isUrl } from '@common/utils';
 import { TipError, TipLoading } from '@common/tip';
-import { addItem, getAllItems, delItem } from '@common/db';
+import { addItem, getAllItems, delItem, getItemsByCondition } from '@common/db';
 import DB_NAME from '@constants/db';
 export default {
     name: 'Main', // 主页面
@@ -59,6 +62,7 @@ export default {
         ScrollBar,
         ExtIcon,
         Menu,
+        TipDialog,
     },
     data() {
         const _this = this;
@@ -70,6 +74,7 @@ export default {
             isCanBack: false,
             isTop: false,
             historyList: [],
+            tipUrl: '',
         };
     },
     mounted() {
@@ -82,14 +87,17 @@ export default {
             _this.isCanBack = flag;
         });
         this.getAllHistory();
+        this.autoTip();
     },
     methods: {
         async openUrl() {
             const flag = /^((https|http)?:\/\/)/.test(this.url);
-            if (flag) {
+            if (isUrl(this.url)) {
                 await this.openBrowser();
+                // 查询是否已经保存到本地
+                const res = await getItemsByCondition(DB_NAME.history, {}, { url: this.url });
                 // 本地数据库添加记录
-                await addItem(DB_NAME.history, {
+                !res && await addItem(DB_NAME.history, {
                     url: this.url
                 });
             } else {
@@ -108,6 +116,18 @@ export default {
         async delHistory(id) {
             await delItem(DB_NAME.history, id);
             await this.getAllHistory();
+        },
+        autoTip() {
+            const value = getClipboardValue();
+            console.log('value => url', value);
+            if (isUrl(value)) {
+                // 打开提示是否打开
+                this.tipUrl = value;
+                this.$refs.tipDialog.showTip();
+            }
+        },
+        isOpenUrl(flag) {
+            flag && this.openBrowser(this.tipUrl);
         },
         goback() {
             PageBack();

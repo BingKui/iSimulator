@@ -14,6 +14,10 @@ export const PasteValue = () => {
     return clipboard.readText('c-t');
 };
 
+export const getClipboardValue = () => {
+    return clipboard.readText();
+};
+
 export const OpenBrowserView = (url) => {
     ipcRenderer.send('add-browerview', url);
     return new Promise((reslove, reject) => {

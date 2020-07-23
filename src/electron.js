@@ -106,12 +106,13 @@ const AddDataBase = (name) => {
             event.sender.send(`${name}-find-all-result`, docs);
         });
     });
-    ipcMain.on(`${name}-find`, (event, item, condition) => {
-        db.find(item, condition, (err, docs) => {
+    ipcMain.on(`${name}-find`, (event, condition) => {
+        db.find({}, condition, (err, docs) => {
+            console.log(err, docs);
             if (err) {
-                event.sender.send(`${name}-find-all-result`, false);
+                event.sender.send(`${name}-find-result`, false);
             }
-            event.sender.send(`${name}-find-all-result`, docs);
+            event.sender.send(`${name}-find-result`, docs);
         });
     });
 };

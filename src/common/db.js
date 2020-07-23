@@ -42,10 +42,11 @@ export const getAllItems = (name) => {
  * @param {Object} item 查询对像
  * @param {Object} condition 查询条件
  */
-export const getItemsByCondition = (name, item, condition) => {
-    ipcRenderer.send(`${name}-find`, item, condition);
+export const getItemsByCondition = (name, condition) => {
+    ipcRenderer.send(`${name}-find`, condition);
     return new Promise((reslove, reject) => {
         ipcRenderer.once(`${name}-find-result`, (event, result) => {
+            console.log(event, result);
             if (result) {
                 reslove(result);
             } else {

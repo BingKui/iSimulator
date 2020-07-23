@@ -17,10 +17,10 @@
         </div>
         <ScrollBar class="menu-list">
             <Row class="menu-content">
-                <Col span="6">
+                <Col :span="6">
                     <MenuItem name="DevTools" icon="Menu_Devtools" @click="openTools" />
                 </Col>
-                <Col span="6">
+                <Col :span="6">
                     <MenuItem :name="this.isTop ? '取消置顶' : '窗口置顶'" icon="Menu_Fixed" @click="setWindowTop" />
                 </Col>
             </Row>
@@ -29,8 +29,7 @@
 </template>
 
 <script>
-import { Row, Col } from 'view-design';
-import { Drawer } from 'element-ui';
+import { Drawer, Row, Col } from 'element-ui';
 import MenuItem from './MenuItem';
 import ExtIcon from '@components/ExtIcon';
 import ScrollBar from '@components/ScrollBar';
