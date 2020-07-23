@@ -32,9 +32,10 @@
             </template>
         </div>
         <div class="main-content-tip" v-else>
-            <img class="test-logo" src="../assets/build.svg" alt="">
-            <div class="test-text">debugging......</div>
+            <!-- <img class="test-logo" src="../assets/build.svg" alt="">
+            <div class="test-text">debugging......</div> -->
         </div>
+        <webview v-show="webviewUrl ? true: false" ref="webview" id="view-admin" :src="webviewUrl" :useragent="wechatUseragent"></webview>
         <Menu ref="menu" @menuClose="menuClose" />
         <TipDialog ref="tipDialog" :url="tipUrl" @tipResult="isOpenUrl" />
     </div>
@@ -48,13 +49,13 @@ import ExtIcon from '@components/ExtIcon';
 import Menu from './Menu';
 import TipDialog from './TipDialog';
 import { OpenBrowserView, CloseView, BindTitleChange,
-    BindUrlChange, PageBack, HideView, ShowView, ExitApp, getClipboardValue, getPageCapture } from '@common/common';
+    BindUrlChange, PageBack, HideView, ShowView, ExitApp, getClipboardValue, getAllContents } from '@common/common';
 import { isUrl } from '@common/utils';
 import { TipError, TipLoading } from '@common/tip';
 import { addItem, getAllItems, delItem, getItemsByCondition } from '@common/db';
 import DB_NAME from '@constants/db';
 export default {
-    name: 'Main', // 主页面
+    name: 'MainWebview', // 主页面
     components: {
         Button,
         Input,
@@ -75,6 +76,8 @@ export default {
             isTop: false,
             historyList: [],
             tipUrl: '',
+            webviewUrl: '',
+            wechatUseragent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16C101 MicroMessenger/7.0.3(0x17000321) NetType/WIFI Language/zh_CN miniProgram',
         };
     },
     mounted() {
@@ -105,8 +108,20 @@ export default {
             }
         },
         async openBrowser(url) {
-            await OpenBrowserView(url || this.url);
+            // await OpenBrowserView(url || this.url);
+            this.webviewUrl = url || this.url;
             this.isOpened = true;
+            const _webview = this.$refs.webview;
+            _webview.addEventListener('dom-ready', async () => {
+                // _webview.openDevTools();
+                console.log('UA', _webview.getUserAgent());
+                console.log('WebContents', _webview.getWebContentsId());
+                const result = await getAllContents(_webview.getWebContentsId());
+                console.log('AllWebContents', result);
+
+            });
+            // console.log(_webview);
+            // console.log(document.querySelector('.view-admin'));
         },
         async getAllHistory() {
             const list = await getAllItems(DB_NAME.history);
@@ -133,8 +148,7 @@ export default {
             PageBack();
         },
         openMenu() {
-            getPageCapture();
-            // HideView();
+            HideView();
             this.$refs.menu.showMenu();
         },
         menuClose() {
@@ -158,6 +172,10 @@ export default {
     height: 100vh;
     .margin-top {
         .m-t(@gap);
+    }
+    #view-admin {
+        width: 375px;
+        height: 667px;
     }
     .main-header {
         width: 100%;

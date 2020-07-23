@@ -79,3 +79,29 @@ export const BindUrlChange = (callback) => {
     });
 
 };
+
+export const getPageCapture = () => {
+    ipcRenderer.send('get-capture-page');
+    // return new Promise((reslove, reject) => {
+    //     ipcRenderer.once('get-capture-page-result', (event, result) => {
+    //         if (result) {
+    //             reslove(result);
+    //         } else {
+    //             reject();
+    //         }
+    //     });
+    // });
+};
+
+export const getAllContents = (id) => {
+    ipcRenderer.send('get-webcontents', id);
+    return new Promise((reslove, reject) => {
+        ipcRenderer.once('get-webcontents-result', (event, result) => {
+            if (result) {
+                reslove(result);
+            } else {
+                reject();
+            }
+        });
+    });
+};
