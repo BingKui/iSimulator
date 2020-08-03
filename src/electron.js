@@ -215,57 +215,64 @@ const AddBrowerView = (win, app) => {
         const image = await view.webContents.capturePage();
         console.log('获得的截图为：', image);
     });
-    // const _view = new BrowserView();
-    // win.setBrowserView(_view);
-    // _view.setBounds({ x: 0, y: 0, width: 0, height: 0 });
+    const _view = new BrowserView();
+    win.setBrowserView(_view);
+    _view.setBounds({ x: 0, y: 0, width: 0, height: 0 });
     // _view.webContents.loadURL('https://uiseed.cn');
-    // ipcMain.on('get-webcontents', (event, id) => {
-    //     console.log(webContents);
-    //     console.log(win.webContents);
-    //     const array = webContents.getAllWebContents();
-    //     const contents = array.filter(item => item.id == id)[0];
-    //     console.log('获取的所有的WebContents', contents);
-    //     const devtools = new BrowserWindow();
-    //     contents.executeJavaScript('console.clear();');
-    //     // console.log('view.webContents.devToolsWebContents', _view.webContents.devToolsWebContents);
-    //     console.log('win.webContents.devToolsWebContents', devtools.webContents);
-    //     contents.setDevToolsWebContents(devtools.webContents);
-    //     console.log('对象Debugger', contents.debugger);
-    //     contents.openDevTools();
-    //     contents.enableDeviceEmulation({
-    //         screenPosition: 'mobile',
-    //         screenSize: {
-    //             width: 375,
-    //             height: 667,
-    //         },
-    //         viewSize: {
-    //             width: 375,
-    //             height: 667,
-    //         },
-    //         viewPosition: {
-    //             x: 0,
-    //             y: 0,
-    //         },
-    //         deviceScaleFactor: 100,
-    //         scale: 1,
-    //     });
-    // contents.debugger.sendCommand('Emulation.setEmitTouchEventsForMouse', { enabled: true }, (error, result) => {
-    //     console.log('setEmitTouchEventsForMouse', error, result);
-    // });
-    // contents.debugger.sendCommand('Emulation.setTouchEmulationEnabled', {
-    //     enabled: true,
-    //     configuration: 'mobile',
-    // }, (error, result) => {
-    //     console.log('setTouchEmulationEnabled', error, result);
-    // });
-    // contents.on('page-title-updated', (e, title, explicitSet) => {
-    //     event.sender.send('title-change', title);
-    // });
-    // contents.on('did-navigate', (e, url) => {
-    //     event.sender.send('url-change', contents.canGoBack());
-    // });
-    // event.sender.send('get-webcontents-result', result);
-    // });
+    ipcMain.on('get-webcontents', (event, id) => {
+        console.log(webContents);
+        console.log(win.webContents);
+        const array = webContents.getAllWebContents();
+        const contents = array.filter(item => item.id == id)[0];
+        console.log('获取的所有的WebContents', contents);
+        // const devtools = new BrowserWindow();
+        // console.log('view.webContents.devToolsWebContents', _view.webContents.devToolsWebContents);
+        // console.log('win.webContents.devToolsWebContents', devtools.webContents);
+        // contents.setDevToolsWebContents(devtools.webContents);
+        // console.log('对象Debugger', contents.debugger);
+        contents.openDevTools();
+        // contents.executeJavaScript('console.clear();');
+        // 添加js
+        contents.executeJavaScript(`
+            var newScript = document.createElement('script');
+            newScript.type = 'text/javascript';
+            newScript.src = '${path.resolve(__dirname, )}';
+            cont.appendChild(newScript);
+        `);
+        contents.enableDeviceEmulation({
+            screenPosition: 'mobile',
+            screenSize: {
+                width: 375,
+                height: 667,
+            },
+            viewSize: {
+                width: 375,
+                height: 667,
+            },
+            viewPosition: {
+                x: 0,
+                y: 0,
+            },
+            deviceScaleFactor: 100,
+            scale: 1,
+        });
+        // contents.debugger.sendCommand('Emulation.setEmitTouchEventsForMouse', { enabled: true }, (error, result) => {
+        //     console.log('setEmitTouchEventsForMouse', error, result);
+        // });
+        // contents.debugger.sendCommand('Emulation.setTouchEmulationEnabled', {
+        //     enabled: true,
+        //     configuration: 'mobile',
+        // }, (error, result) => {
+        //     console.log('setTouchEmulationEnabled', error, result);
+        // });
+        // contents.on('page-title-updated', (e, title, explicitSet) => {
+        //     event.sender.send('title-change', title);
+        // });
+        // contents.on('did-navigate', (e, url) => {
+        //     event.sender.send('url-change', contents.canGoBack());
+        // });
+        // event.sender.send('get-webcontents-result', contents);
+    });
 };
 
 module.exports = {

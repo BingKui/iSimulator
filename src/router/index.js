@@ -15,7 +15,7 @@ const router = new Router({
             name: 'main',
             router: 'main',
             path: '/main',
-            component: Main,
+            component: MainWebview,
         }
     ],
 });

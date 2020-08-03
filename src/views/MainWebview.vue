@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { Button, Input } from 'element-ui';
+import { Button, Input, Loading } from 'element-ui';
 import HistoryItem from './HistoryItem';
 import ScrollBar from '@components/ScrollBar';
 import ExtIcon from '@components/ExtIcon';
@@ -54,6 +54,7 @@ import { isUrl } from '@common/utils';
 import { TipError, TipLoading } from '@common/tip';
 import { addItem, getAllItems, delItem, getItemsByCondition } from '@common/db';
 import DB_NAME from '@constants/db';
+Loading.service({ fullscreen: true });
 export default {
     name: 'MainWebview', // 主页面
     components: {
@@ -77,7 +78,7 @@ export default {
             historyList: [],
             tipUrl: '',
             webviewUrl: '',
-            wechatUseragent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16C101 MicroMessenger/7.0.3(0x17000321) NetType/WIFI Language/zh_CN miniProgram',
+            wechatUseragent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1',
         };
     },
     mounted() {
@@ -109,17 +110,42 @@ export default {
         },
         async openBrowser(url) {
             // await OpenBrowserView(url || this.url);
+            console.log();
+            const loading;
             this.webviewUrl = url || this.url;
             this.isOpened = true;
             const _webview = this.$refs.webview;
+            window.aaa = _webview;
             _webview.addEventListener('dom-ready', async () => {
                 // _webview.openDevTools();
+                console.log('Webview', _webview);
                 console.log('UA', _webview.getUserAgent());
                 console.log('WebContents', _webview.getWebContentsId());
                 const result = await getAllContents(_webview.getWebContentsId());
                 console.log('AllWebContents', result);
 
             });
+            const webview = document.querySelector('webview');
+            const indicator = document.querySelector('.indicator');
+
+            const loadstart = () => {
+                // loading.show();
+                loading = Loading({
+                    lock: true,
+                    text: 'Loading',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
+                console.log('开始加载webview');
+            };
+
+            const loadstop = () => {
+                loading.close();
+                console.log('webview 加载完成');
+            };
+
+            webview.addEventListener('did-start-loading', loadstart);
+            webview.addEventListener('did-stop-loading', loadstop);
             // console.log(_webview);
             // console.log(document.querySelector('.view-admin'));
         },
