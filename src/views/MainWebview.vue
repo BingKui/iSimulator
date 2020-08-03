@@ -111,7 +111,7 @@ export default {
         async openBrowser(url) {
             // await OpenBrowserView(url || this.url);
             console.log();
-            const loading;
+            // const loading;
             this.webviewUrl = url || this.url;
             this.isOpened = true;
             const _webview = this.$refs.webview;
@@ -130,17 +130,17 @@ export default {
 
             const loadstart = () => {
                 // loading.show();
-                loading = Loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-                });
+                // loading = Loading({
+                //     lock: true,
+                //     text: 'Loading',
+                //     spinner: 'el-icon-loading',
+                //     background: 'rgba(0, 0, 0, 0.7)'
+                // });
                 console.log('开始加载webview');
             };
 
             const loadstop = () => {
-                loading.close();
+                // loading.close();
                 console.log('webview 加载完成');
             };
 

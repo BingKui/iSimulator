@@ -14,7 +14,7 @@ const isDev = process.env.ENV === 'dev';
 const winURL = isDev ? `http://${host}:${port}` : `file://${__dirname}/index.html`;
 function createWindow() {
     mainWindow = new BrowserWindow({
-        title: 'Emulator',
+        title: 'iSimulator',
         height: 727,
         width: 375,
         center: true, // 窗口默认居中

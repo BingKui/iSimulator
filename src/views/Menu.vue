@@ -23,6 +23,9 @@
                 <Col :span="6">
                     <MenuItem :name="this.isTop ? '取消置顶' : '窗口置顶'" icon="Menu_Fixed" @click="setWindowTop" />
                 </Col>
+                <Col :span="6">
+                    <MenuItem name="修改UA" icon="Menu_UserAgent" @click="openSetUserAgent" />
+                </Col>
             </Row>
         </ScrollBar>
     </Drawer>
@@ -30,7 +33,7 @@
 
 <script>
 import { Drawer, Row, Col } from 'element-ui';
-import MenuItem from './MenuItem';
+import MenuItem from './menu/MenuItem';
 import ExtIcon from '@components/ExtIcon';
 import ScrollBar from '@components/ScrollBar';
 import { OpenDevTools, SetWinTop } from '@common/common';
@@ -69,6 +72,7 @@ export default {
             SetWinTop(this.isTop);
             this.closeMenu();
         },
+        openSetUserAgent() {},
     },
 };
 </script>
