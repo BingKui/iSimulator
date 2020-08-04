@@ -209,7 +209,7 @@ const AddBrowerView = (win, app) => {
     });
     // 退出
     ipcMain.on('exit-app', (event) => {
-        app.quit();
+        app.exit();
     });
     ipcMain.on('get-capture-page', async (event) => {
         console.log('通知截图');
