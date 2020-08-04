@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 // main
 import Main from '@views/Main';
-import MainWebview from '@views/MainWebview';
 
 Vue.use(Router);
 

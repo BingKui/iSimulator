@@ -36,7 +36,7 @@
             <div class="test-text">debugging......</div>
         </div>
         <Menu ref="menu" @menuClose="menuClose" />
-        <TipDialog ref="tipDialog" :url="tipUrl" @tipResult="isOpenUrl" />
+        <TipDialog ref="tipDialog" @tipResult="isOpenUrl" />
     </div>
 </template>
 
@@ -65,16 +65,14 @@ export default {
         TipDialog,
     },
     data() {
-        const _this = this;
         return {
-            pageTitle: 'Emulator',
+            pageTitle: 'iSimulator',
             url: '',
             drawer: false,
             isOpened: false,
             isCanBack: false,
             isTop: false,
             historyList: [],
-            tipUrl: '',
         };
     },
     mounted() {
@@ -94,8 +92,9 @@ export default {
             const flag = /^((https|http)?:\/\/)/.test(this.url);
             if (isUrl(this.url)) {
                 await this.openBrowser();
+                console.log(this.url);
                 // 查询是否已经保存到本地
-                const res = await getItemsByCondition(DB_NAME.history, {}, { url: this.url });
+                const res = await getItemsByCondition(DB_NAME.history, { url: this.url });
                 // 本地数据库添加记录
                 !res && await addItem(DB_NAME.history, {
                     url: this.url
@@ -119,22 +118,19 @@ export default {
         },
         autoTip() {
             const value = getClipboardValue();
-            console.log('value => url', value);
             if (isUrl(value)) {
                 // 打开提示是否打开
-                this.tipUrl = value;
-                this.$refs.tipDialog.showTip();
+                this.$refs.tipDialog.showTip(value);
             }
         },
-        isOpenUrl(flag) {
-            flag && this.openBrowser(this.tipUrl);
+        isOpenUrl(url) {
+            url && this.openBrowser(url);
         },
         goback() {
             PageBack();
         },
         openMenu() {
-            getPageCapture();
-            // HideView();
+            HideView();
             this.$refs.menu.showMenu();
         },
         menuClose() {

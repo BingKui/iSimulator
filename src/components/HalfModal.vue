@@ -1,10 +1,10 @@
 <template>
     <Drawer
-        :visible.sync="show"
+        :visible.sync="visiable"
         :with-header="false"
         direction="btt"
-        :append-to-body="true"
-        custom-class="half-modal"
+        :append-to-body="appendToBody"
+        :custom-class="`half-modal ${customClass}`"
         :wrapperClosable="wrapperClosable"
         @closed="drawerClosed"
     >
@@ -33,9 +33,13 @@ export default {
         ExtIcon,
     },
     props: {
-        show: Boolean,
+        visiable: Boolean,
         title: String,
         haveLogo: {
+            type: Boolean,
+            default: false,
+        },
+        appendToBody: {
             type: Boolean,
             default: false,
         },
@@ -43,11 +47,11 @@ export default {
             type: Boolean,
             default: false,
         },
-
+        customClass: String,
     },
     methods: {
         closeAction() {
-            this.$emit('closeModal');
+            this.$emit('update:visiable', false);
         },
         drawerClosed() {
             this.$emit('halfClosed');
@@ -59,16 +63,18 @@ export default {
 <style lang="less">
 .half-modal {
     outline: none;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    background-color: #EAEBEC;
+    border-top-left-radius: @half-border-radius;
+    border-top-right-radius: @half-border-radius;
+    background-color: @half-background-color;
+    height: @half-height !important;
     .modal-title {
         .p-v(@gap-md);
         .p-h(@gap-lg);
         .flex();
         justify-content: space-between;
         align-items: center;
-        border-bottom: @border;
+        .border-line();
+        height: @half-header-height;
         .title-name {
             font-size: 18px;
             font-weight: bold;
@@ -85,13 +91,8 @@ export default {
             cursor: pointer;
         }
     }
-    .menu-list {
-        overflow-x: auto;
-        overflow-y: hidden;
-        height: 375px;
-        .menu-content {
-            .p-h(@gap);
-        }
+    .modal-content {
+        min-height: 100px;
     }
 }
 .el-drawer__container {

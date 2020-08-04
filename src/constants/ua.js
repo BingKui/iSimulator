@@ -9,5 +9,5 @@ export const USERAGENT_LIST = [{
     value: 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/17F80 ChannelId(460) Ariver/1.0.13 AliApp(AP/10.1.99.6000) Nebula WK RVKType(1) AlipayDefined(nt:WIFI,ws:375|748|3.0) AlipayClient/10.1.99.6000 Language/zh-Hans Region/CN NebulaX/1.0.0',
 }, {
     name: '支付宝小程序',
-    value: '',
+    value: 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/17F80 ChannelId(51) Ariver/1.0.13 AliApp(AP/10.1.99.6000) Nebula WK RVKType(1) AlipayDefined(nt:WIFI,ws:375|748|3.0) AlipayClient/10.1.99.6000 Language/zh-Hans Region/CN MiniProgram APXWebView NebulaX/1.0.0',
 }];

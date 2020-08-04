@@ -1,6 +1,6 @@
 {
   "name": "iSimulator",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "手机模拟器",
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -25,8 +25,8 @@
   },
   "homepage": "",
   "build": {
-    "productName": "Emulator",
-    "appId": "cn.uiseed.emulator",
+    "productName": "iSimulator",
+    "appId": "cn.uiseed.iSimulator",
     "directories": {
       "output": "dist"
     },

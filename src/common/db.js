@@ -46,9 +46,10 @@ export const getItemsByCondition = (name, condition) => {
     ipcRenderer.send(`${name}-find`, condition);
     return new Promise((reslove, reject) => {
         ipcRenderer.once(`${name}-find-result`, (event, result) => {
-            console.log(event, result);
+            console.log('条件：', condition);
+            console.log('结果：', result);
             if (result) {
-                reslove(result);
+                reslove(result.length > 0);
             } else {
                 reject();
             }

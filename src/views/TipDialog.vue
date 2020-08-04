@@ -14,7 +14,7 @@
                 <ExtIcon name="Header_Close" @click="closeTip" title="关闭菜单" :size="18" />
             </div>
         </div>
-        <div class="content-url">{{url}}</div>
+        <div class="content-url">{{urlValue}}</div>
         <Row class="action-list" :gutter="15">
             <Col :span="12">
                 <Button @click="cancelTip">取消</Button>
@@ -31,12 +31,6 @@ import { Drawer, Button, Row, Col } from 'element-ui';
 import ExtIcon from '@components/ExtIcon';
 export default {
     name: 'TipDialog', // 提示框
-    props: {
-        url: {
-            type: String,
-            default: '',
-        },
-    },
     components: {
         Drawer,
         Button,
@@ -46,12 +40,14 @@ export default {
     },
     data() {
         return {
+            urlValue: '',
             isShow: false,
             isOpen: false,
         };
     },
     methods: {
-        showTip() {
+        showTip(value) {
+            this.urlValue = value;
             this.isShow = true;
         },
         closeTip() {
@@ -66,7 +62,7 @@ export default {
             this.closeTip();
         },
         drawerClosed() {
-            this.$emit('tipResult', this.isOpen);
+            this.$emit('tipResult', this.isOpen ? this.urlValue : false);
         },
     },
 };

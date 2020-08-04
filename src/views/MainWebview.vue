@@ -54,7 +54,6 @@ import { isUrl } from '@common/utils';
 import { TipError, TipLoading } from '@common/tip';
 import { addItem, getAllItems, delItem, getItemsByCondition } from '@common/db';
 import DB_NAME from '@constants/db';
-Loading.service({ fullscreen: true });
 export default {
     name: 'MainWebview', // 主页面
     components: {

@@ -105,3 +105,16 @@ export const getAllContents = (id) => {
         });
     });
 };
+
+export const setUserAgent = (ua) => {
+    ipcRenderer.send('menu-set-ua', ua);
+    return new Promise((reslove, reject) => {
+        ipcRenderer.once('menu-set-ua-result', (event, result) => {
+            if (result) {
+                reslove(result);
+            } else {
+                reject();
+            }
+        });
+    });
+};

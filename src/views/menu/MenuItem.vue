@@ -1,9 +1,9 @@
 <template>
     <div class="v-menu-item" @click="menuClick">
         <div class="menu-icon">
-            <ExtIcon :name="icon" :size="30" color="#000000" @click="menuClick" />
+            <ExtIcon :name="icon" :size="30" :color="isAction ? '#409EFF' : '#000000'" @click="menuClick" />
         </div>
-        <div class="menu-name">{{name}}</div>
+        <div :class="`menu-name ${isAction ? 'action' : ''}`">{{name}}</div>
     </div>
 </template>
 
@@ -22,6 +22,10 @@ export default {
         icon: {
             type: String,
             default: '',
+        },
+        isAction: {
+            type: Boolean,
+            default: false,
         },
     },
     methods: {
@@ -51,6 +55,9 @@ export default {
         .text-overflow();
         .m-t(@gap);
         color: @gray-darker;
+        &.action {
+            color: #409EFF;
+        }
     }
     &:hover {
         .menu-icon {

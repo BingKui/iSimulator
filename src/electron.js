@@ -1,5 +1,5 @@
 // electron 相关的原生方法封装
-import { app, Notification, globalShortcut, Menu, ipcMain, BrowserView, webContents, BrowserWindow } from 'electron';
+import { app, Notification, globalShortcut, Menu, ipcMain, BrowserView, nativeImage, BrowserWindow } from 'electron';
 import path from 'path';
 import Datastore from 'nedb';
 
@@ -107,7 +107,7 @@ const AddDataBase = (name) => {
         });
     });
     ipcMain.on(`${name}-find`, (event, condition) => {
-        db.find({}, condition, (err, docs) => {
+        db.find(condition, (err, docs) => {
             console.log(err, docs);
             if (err) {
                 event.sender.send(`${name}-find-result`, false);
@@ -215,6 +215,10 @@ const AddBrowerView = (win, app) => {
         console.log('通知截图');
         const image = await view.webContents.capturePage();
         console.log('获得的截图为：', image);
+    });
+    ipcMain.on('menu-set-ua', (event, userAgent) => {
+        view.webContents.setUserAgent(userAgent);
+        event.sender.send('menu-set-ua-result', true);
     });
 };
 
