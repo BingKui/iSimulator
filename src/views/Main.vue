@@ -32,8 +32,8 @@
             </template>
         </div>
         <div class="main-content-tip" v-else>
-            <img class="test-logo" src="../assets/build.svg" alt="">
-            <div class="test-text">debugging......</div>
+            <img class="test-logo" :src="buildSrc" alt="">
+            <div class="test-text">调试中......</div>
         </div>
         <Menu ref="menu" @menuClose="menuClose" />
         <TipDialog ref="tipDialog" @tipResult="isOpenUrl" />
@@ -53,6 +53,7 @@ import { isUrl } from '@common/utils';
 import { TipError, TipLoading } from '@common/tip';
 import { addItem, getAllItems, delItem, getItemsByCondition } from '@common/db';
 import DB_NAME from '@constants/db';
+import buildSrc from '@assets/build.svg';
 export default {
     name: 'Main', // 主页面
     components: {
@@ -66,6 +67,7 @@ export default {
     },
     data() {
         return {
+            buildSrc,
             pageTitle: 'iSimulator',
             url: '',
             drawer: false,
