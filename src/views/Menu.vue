@@ -2,8 +2,9 @@
     <HalfModal
         :haveLogo="true"
         title="菜单"
-        :visiable.sync="visiable"
+        :visible.sync="visible"
         customClass="menu-element"
+        size="450px"
         @halfClosed="drawerClosed"
     >
         <ScrollBar class="menu-list">
@@ -45,17 +46,17 @@ export default {
     },
     data() {
         return {
-            visiable: false,
+            visible: false,
             isTop: false,
             isNoticyShowView: true,
         };
     },
     methods: {
         showMenu() {
-            this.visiable = true;
+            this.visible = true;
         },
         closeMenu() {
-            this.visiable = false;
+            this.visible = false;
         },
         drawerClosed() {
             this.isNoticyShowView && this.$emit('menuClose');

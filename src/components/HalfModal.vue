@@ -1,16 +1,17 @@
 <template>
     <Drawer
-        :visible.sync="visiable"
+        :visible.sync="visible"
         :with-header="false"
         direction="btt"
         :append-to-body="appendToBody"
         :custom-class="`half-modal ${customClass}`"
         :wrapperClosable="wrapperClosable"
+        :size="size"
         @closed="drawerClosed"
     >
         <div class="modal-title">
             <div class="title-name">
-                <img v-if="haveLogo" class="logo" src="../assets/logo.png" alt="">
+                <img v-if="haveLogo" class="logo" :src="logoSrc" alt="">
                 {{title}}
             </div>
             <div class="close-action" @click="closeAction">
@@ -26,6 +27,7 @@
 <script>
 import { Drawer } from 'element-ui';
 import ExtIcon from '@components/ExtIcon';
+const logoSrc = require('@assets/logo.png');
 export default {
     name: 'HalfModal', // 半屏弹框
     components: {
@@ -33,7 +35,7 @@ export default {
         ExtIcon,
     },
     props: {
-        visiable: Boolean,
+        visible: Boolean,
         title: String,
         haveLogo: {
             type: Boolean,
@@ -48,10 +50,19 @@ export default {
             default: false,
         },
         customClass: String,
+        size: {
+            type: String,
+            default: '450px',
+        },
+    },
+    data() {
+        return {
+            logoSrc,
+        };
     },
     methods: {
         closeAction() {
-            this.$emit('update:visiable', false);
+            this.$emit('update:visible', false);
         },
         drawerClosed() {
             this.$emit('halfClosed');
@@ -65,8 +76,7 @@ export default {
     outline: none;
     border-top-left-radius: @half-border-radius;
     border-top-right-radius: @half-border-radius;
-    background-color: @half-background-color;
-    height: @half-height !important;
+    background-color: @half-background-color !important;
     .modal-title {
         .p-v(@gap-md);
         .p-h(@gap-lg);

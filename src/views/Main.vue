@@ -118,6 +118,7 @@ export default {
         },
         autoTip() {
             const value = getClipboardValue();
+            console.log('当前复制的内容为：', value);
             if (isUrl(value)) {
                 // 打开提示是否打开
                 this.$refs.tipDialog.showTip(value);

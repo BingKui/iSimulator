@@ -1,19 +1,11 @@
 <template>
-    <Drawer
+    <HalfModal
+        title="检测到复制的地址"
         :visible.sync="isShow"
-        :with-header="false"
-        direction="btt"
-        :append-to-body="true"
-        custom-class="tip-dialog-element"
-        :wrapperClosable="false"
-        @closed="drawerClosed"
+        customClass="tip-dialog-element"
+        size="30%"
+        @halfClosed="drawerClosed"
     >
-        <div class="title">
-            <div class="title-name">检测到复制的地址</div>
-            <div class="close-action" @click="closeTip">
-                <ExtIcon name="Header_Close" @click="closeTip" title="关闭菜单" :size="18" />
-            </div>
-        </div>
         <div class="content-url">{{urlValue}}</div>
         <Row class="action-list" :gutter="15">
             <Col :span="12">
@@ -23,20 +15,21 @@
                 <Button type="primary" @click="openUrl">打开</Button>
             </Col>
         </Row>
-    </Drawer>
+    </HalfModal>
 </template>
 
 <script>
-import { Drawer, Button, Row, Col } from 'element-ui';
+import { Button, Row, Col } from 'element-ui';
 import ExtIcon from '@components/ExtIcon';
+import HalfModal from '@components/HalfModal';
 export default {
     name: 'TipDialog', // 提示框
     components: {
-        Drawer,
         Button,
         Row,
         Col,
         ExtIcon,
+        HalfModal,
     },
     data() {
         return {
@@ -100,6 +93,7 @@ export default {
     .content-url {
         font-size: 16px;
         .p(@gap-md);
+        word-break: break-all;
     }
     .action-list {
         .p(@gap-md);

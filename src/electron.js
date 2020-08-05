@@ -172,7 +172,10 @@ const AddBrowerView = (win, app) => {
         });
     });
     ipcMain.on('open-devtools', (event, url, condition) => {
-        view.webContents.openDevTools();
+        view.webContents.openDevTools({
+            mode: 'undocked',
+            activate: true,
+        });
         view.webContents.executeJavaScript('console.clear();');
     });
     ipcMain.on('hide-view', (event, url, condition) => {

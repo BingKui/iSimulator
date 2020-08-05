@@ -2,7 +2,7 @@
     <HalfModal
         :haveLogo="false"
         title="设置userAgent"
-        :visiable.sync="visiable"
+        :visible.sync="visible"
         :appendToBody="true"
         customClass="v-set-user-agent"
         @halfClosed="drawerClosed"
@@ -35,17 +35,17 @@ export default {
     },
     data() {
         return {
-            visiable: false,
+            visible: false,
             uaList: USERAGENT_LIST,
             userAgent: '',
         };
     },
     methods: {
         show() {
-            this.visiable = true;
+            this.visible = true;
         },
         close() {
-            this.visiable = false;
+            this.visible = false;
         },
         drawerClosed() {
             this.$emit('closeMenu');
