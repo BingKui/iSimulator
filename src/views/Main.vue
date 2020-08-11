@@ -53,7 +53,7 @@ import { isUrl } from '@common/utils';
 import { TipError, TipLoading } from '@common/tip';
 import { addItem, getAllItems, delItem, getItemsByCondition } from '@common/db';
 import DB_NAME from '@constants/db';
-import buildSrc from '@assets/build.svg';
+import { BUILD } from '@constants/assets';
 export default {
     name: 'Main', // 主页面
     components: {
@@ -67,7 +67,7 @@ export default {
     },
     data() {
         return {
-            buildSrc,
+            buildSrc: BUILD,
             pageTitle: 'iSimulator',
             url: '',
             drawer: false,
@@ -145,7 +145,8 @@ export default {
             await this.getAllHistory();
         },
         exitApp() {
-            ExitApp();
+            window.close();
+            // ExitApp();
         },
     },
 };

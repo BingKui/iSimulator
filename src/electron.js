@@ -36,13 +36,13 @@ const AddMenuList = () => {
         ...(process.platform === 'darwin' ? [{
             label: app.getName(),
             submenu: [
-                { label: '关于Emulator', role: 'about' },
+                { label: '关于 iSimulator', role: 'about' },
                 { type: 'separator' },
                 { label: '隐藏', role: 'hide' },
                 { label: '隐藏其他', role: 'hideothers' },
                 { label: '显示', role: 'unhide' },
                 { type: 'separator' },
-                { label: '退出Emulator', role: 'quit' }
+                { label: '退出 iSimulator', role: 'quit' }
             ],
         }] : []),
         // { role: 'editMenu' }

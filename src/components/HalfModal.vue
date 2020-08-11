@@ -27,7 +27,7 @@
 <script>
 import { Drawer } from 'element-ui';
 import ExtIcon from '@components/ExtIcon';
-import logoSrc from '@assets/logo.png';
+import { LOGO } from '@constants/assets';
 export default {
     name: 'HalfModal', // 半屏弹框
     components: {
@@ -57,7 +57,7 @@ export default {
     },
     data() {
         return {
-            logoSrc,
+            logoSrc: LOGO,
         };
     },
     methods: {

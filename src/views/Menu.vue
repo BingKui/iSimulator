@@ -18,9 +18,13 @@
                 <Col :span="6">
                     <MenuItem name="修改UA" icon="Menu_UserAgent" @click="openSetUserAgent" />
                 </Col>
+                <Col :span="6">
+                    <MenuItem name="二维码" icon="Menu_Qrcode" @click="openUrlQrcode" />
+                </Col>
             </Row>
         </ScrollBar>
         <SetUserAgent ref="setUserAgent" @closeMenu="secondaryMenuClose" />
+        <UrlQrcode ref="urlqrcode" @closeMenu="secondaryMenuClose" />
     </HalfModal>
 </template>
 
@@ -31,6 +35,7 @@ import MenuItem from './menu/MenuItem';
 import ExtIcon from '@components/ExtIcon';
 import ScrollBar from '@components/ScrollBar';
 import SetUserAgent from './menu/SetUserAgent';
+import UrlQrcode from './menu/UrlQrcode';
 import { OpenDevTools, SetWinTop } from '@common/common';
 export default {
     name: 'Menu', // 菜单
@@ -43,6 +48,7 @@ export default {
         ExtIcon,
         ScrollBar,
         SetUserAgent,
+        UrlQrcode,
     },
     data() {
         return {
@@ -78,6 +84,11 @@ export default {
         secondaryMenuClose() {
             this.isNoticyShowView = true;
             this.drawerClosed();
+        },
+        openUrlQrcode() {
+            this.$refs.urlqrcode.show();
+            this.isNoticyShowView = false;
+            this.closeMenu();
         },
     },
 };
