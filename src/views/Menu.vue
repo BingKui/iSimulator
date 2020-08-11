@@ -21,10 +21,14 @@
                 <Col :span="6">
                     <MenuItem name="二维码" icon="Menu_Qrcode" @click="openUrlQrcode" />
                 </Col>
+                <Col :span="6">
+                    <MenuItem name="关于" icon="Menu_About" @click="openAbout" />
+                </Col>
             </Row>
         </ScrollBar>
         <SetUserAgent ref="setUserAgent" @closeMenu="secondaryMenuClose" />
         <UrlQrcode ref="urlqrcode" @closeMenu="secondaryMenuClose" />
+        <About ref="about" @closeMenu="secondaryMenuClose" />
     </HalfModal>
 </template>
 
@@ -36,6 +40,7 @@ import ExtIcon from '@components/ExtIcon';
 import ScrollBar from '@components/ScrollBar';
 import SetUserAgent from './menu/SetUserAgent';
 import UrlQrcode from './menu/UrlQrcode';
+import About from './menu/About';
 import { OpenDevTools, SetWinTop } from '@common/common';
 export default {
     name: 'Menu', // 菜单
@@ -49,6 +54,7 @@ export default {
         ScrollBar,
         SetUserAgent,
         UrlQrcode,
+        About,
     },
     data() {
         return {
@@ -87,6 +93,11 @@ export default {
         },
         openUrlQrcode() {
             this.$refs.urlqrcode.show();
+            this.isNoticyShowView = false;
+            this.closeMenu();
+        },
+        openAbout() {
+            this.$refs.about.show();
             this.isNoticyShowView = false;
             this.closeMenu();
         },
