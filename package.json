@@ -1,6 +1,6 @@
 {
   "name": "iSimulator",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "手机模拟器",
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -97,7 +97,7 @@
     "cross-spawn": "^7.0.0",
     "css-loader": "^2.1.1",
     "del": "^4.1.1",
-    "electron": "^9.0.2",
+    "electron": "^9.2.0",
     "electron-builder": "^22.7.0",
     "eslint": "^5.16.0",
     "eslint-loader": "^2.1.2",
