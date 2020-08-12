@@ -55,6 +55,10 @@ function createWindow() {
 app.on('ready', createWindow);
 app.dock && app.dock.setIcon(logo);
 
+app.on('before-quit', () => {
+    mainWindow = null;
+});
+
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();

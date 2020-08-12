@@ -224,7 +224,7 @@ const AddBrowerView = (win, app) => {
         event.sender.send('menu-set-ua-result', true);
     });
     ipcMain.on('get-url', (event) => {
-        const url = view.webContents.getUrl();
+        const url = view.webContents.getURL();
         event.sender.send('get-url-result', url);
     });
 };
