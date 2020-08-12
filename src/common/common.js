@@ -118,3 +118,16 @@ export const setUserAgent = (ua) => {
         });
     });
 };
+
+export const getWebviewUrl = () => {
+    ipcRenderer.send('get-url');
+    return new Promise((reslove, reject) => {
+        ipcRenderer.once('get-url-result', (event, url) => {
+            if (url) {
+                reslove(url);
+            } else {
+                reject();
+            }
+        });
+    });
+};

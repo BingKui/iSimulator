@@ -223,6 +223,10 @@ const AddBrowerView = (win, app) => {
         view.webContents.setUserAgent(userAgent);
         event.sender.send('menu-set-ua-result', true);
     });
+    ipcMain.on('get-url', (event) => {
+        const url = view.webContents.getUrl();
+        event.sender.send('get-url-result', url);
+    });
 };
 
 module.exports = {
