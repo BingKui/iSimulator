@@ -208,7 +208,7 @@ const AddBrowerView = (win, app) => {
     });
     ipcMain.on('set-window-fixed', (event, flag=false, condition) => {
         // 置顶
-        win.setAlwaysOnTop(flag);
+        win.setAlwaysOnTop(flag, 'screen-saver', 1);
     });
     // 退出
     ipcMain.on('exit-app', (event) => {

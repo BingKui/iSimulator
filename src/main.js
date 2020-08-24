@@ -18,7 +18,7 @@ function createWindow() {
         height: 727,
         width: 375,
         center: true, // 窗口默认居中
-        closable: true, // 是否有关闭
+        closable: false, // 是否有关闭
         minimizable: false, // 是否有最小化
         maximizable: false, // 不存在最大化
         resizable: false, // 不可修改窗口大小
