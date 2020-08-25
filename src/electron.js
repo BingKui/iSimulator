@@ -195,6 +195,9 @@ const AddBrowerView = (win, app) => {
         });
     });
     ipcMain.on('close', (event, url, condition) => {
+        if (view.webContents.isDevToolsOpened()) {
+            view.webContents.closeDevTools();
+        }
         win.removeBrowserView(view);
         event.sender.send('close-result', true);
     });
