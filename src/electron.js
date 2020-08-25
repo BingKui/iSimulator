@@ -208,7 +208,7 @@ const AddBrowerView = (win, app) => {
     });
     ipcMain.on('set-window-fixed', (event, flag=false, condition) => {
         // 置顶
-        win.setAlwaysOnTop(flag, 'screen-saver', 1);
+        win.setAlwaysOnTop(flag, 'screen-saver', 10);
     });
     // 退出
     ipcMain.on('exit-app', (event) => {
@@ -229,10 +229,18 @@ const AddBrowerView = (win, app) => {
     });
 };
 
+/**
+ * 清除所有监听
+ */
+export const ClearAllListener = () => {
+    ipcMain.removeAllListeners();
+};
+
 module.exports = {
     Notic,
     AddShortcuts,
     AddMenuList,
     AddDataBase,
     AddBrowerView,
+    ClearAllListener,
 };

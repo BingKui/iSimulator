@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from 'electron' // eslint-disable-line
-import { AddMenuList, AddDataBase, AddBrowerView } from './electron';
+import { AddMenuList, AddDataBase, AddBrowerView, ClearAllListener } from './electron';
 const path = require('path');
 import DB_NAME from './constants/db';
 const { port, host } = require('../electron/config');
@@ -18,18 +18,18 @@ function createWindow() {
         height: 727,
         width: 375,
         center: true, // 窗口默认居中
-        closable: false, // 是否有关闭
-        minimizable: false, // 是否有最小化
-        maximizable: false, // 不存在最大化
         resizable: false, // 不可修改窗口大小
+        maximizable: false, // 不存在最大化
         skipTaskbar: true, // 任务栏显示
-        fullscreenable: false,
-        useContentSize: false, // 不允许修改大小
+        useContentSize: true, // 不允许修改大小
         transparent: true, // 透明
         frame: false, // 不使用框架
-        titleBarStyle: 'customButtonsOnHover',
+        fullscreenable: false,
+        titleBarStyle: 'default',
+        backgroundColor: 'none',
+        thickFrame: false,
         webPreferences: {
-            devTools: true,
+            devTools: isDev ? true : false,
             scrollBounce: false,
             nodeIntegration: true,
             webviewTag: true,
@@ -38,6 +38,10 @@ function createWindow() {
     if (isDev) {
         mainWindow.webContents.openDevTools();
     }
+    mainWindow.on('closed', () => {
+        mainWindow = null;
+        ClearAllListener();
+    });
 
     mainWindow.loadURL(winURL);
 

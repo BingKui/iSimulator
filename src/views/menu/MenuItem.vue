@@ -30,7 +30,6 @@ export default {
     },
     methods: {
         menuClick() {
-            console.log('点击');
             this.$emit('click');
         },
     },

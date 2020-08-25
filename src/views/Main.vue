@@ -111,7 +111,6 @@ export default {
         },
         async getAllHistory() {
             const list = await getAllItems(DB_NAME.history);
-            console.log('获取所有历史记录：', list);
             this.historyList = list;
         },
         async delHistory(id) {
@@ -120,7 +119,6 @@ export default {
         },
         autoTip() {
             const value = getClipboardValue();
-            console.log('当前复制的内容为：', value);
             if (isUrl(value)) {
                 // 打开提示是否打开
                 this.$refs.tipDialog.showTip(value);
@@ -202,6 +200,10 @@ export default {
                 height: 30px;
                 .flex-center();
                 border-right: @border;
+                cursor: pointer;
+                &:hover {
+                    background-color: #eee;
+                }
                 &:last-child {
                     border-right: none;
                 }

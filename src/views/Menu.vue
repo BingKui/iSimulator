@@ -22,12 +22,16 @@
                     <MenuItem name="二维码" icon="Menu_Qrcode" @click="openUrlQrcode" />
                 </Col>
                 <Col :span="6">
+                    <MenuItem name="Url" icon="Menu_Url" @click="openUrlParam" />
+                </Col>
+                <Col :span="6">
                     <MenuItem name="关于" icon="Menu_About" @click="openAbout" />
                 </Col>
             </Row>
         </ScrollBar>
         <SetUserAgent ref="setUserAgent" @closeMenu="secondaryMenuClose" />
         <UrlQrcode ref="urlqrcode" @closeMenu="secondaryMenuClose" />
+        <UrlParam ref="urlparam" @closeMenu="secondaryMenuClose" />
         <About ref="about" @closeMenu="secondaryMenuClose" />
     </HalfModal>
 </template>
@@ -40,6 +44,7 @@ import ExtIcon from '@components/ExtIcon';
 import ScrollBar from '@components/ScrollBar';
 import SetUserAgent from './menu/SetUserAgent';
 import UrlQrcode from './menu/UrlQrcode';
+import UrlParam from './menu/UrlParam';
 import About from './menu/About';
 import { OpenDevTools, SetWinTop } from '@common/common';
 export default {
@@ -54,6 +59,7 @@ export default {
         ScrollBar,
         SetUserAgent,
         UrlQrcode,
+        UrlParam,
         About,
     },
     data() {
@@ -93,6 +99,11 @@ export default {
         },
         openUrlQrcode() {
             this.$refs.urlqrcode.show();
+            this.isNoticyShowView = false;
+            this.closeMenu();
+        },
+        openUrlParam() {
+            this.$refs.urlparam.show();
             this.isNoticyShowView = false;
             this.closeMenu();
         },
