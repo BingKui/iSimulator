@@ -38,15 +38,12 @@ function createWindow() {
     if (isDev) {
         mainWindow.webContents.openDevTools();
     }
-    mainWindow.on('closed', () => {
-        mainWindow = null;
-        ClearAllListener();
-    });
 
     mainWindow.loadURL(winURL);
 
     mainWindow.on('closed', () => {
         mainWindow = null;
+        ClearAllListener();
     });
     AddBrowerView(mainWindow, app);
     AddMenuList();
@@ -64,9 +61,7 @@ app.on('before-quit', () => {
 });
 
 app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
+    app.quit();
 });
 
 app.on('activate', () => {
