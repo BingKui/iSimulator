@@ -1,20 +1,22 @@
+import { DEVICE_LIST } from '@constants/device';
 const app = {
     state: {
-        count: 0
+        deviceInfo: DEVICE_LIST[1],
     },
     mutations: {
-        ADD_COUNT: (state, payload) => {
-            state.count += payload.amount;
+        SET_DEVICE_INFO: (state, deviceInfo) => {
+            Object.assign(state, {
+                deviceInfo,
+            });
         }
     },
     actions: {
-        addCount: ({
-            commit
-        }, payload) => {
-            commit('ADD_COUNT', {
-                amount: payload.num
-            });
-        }
+        setDeviceInfo: ({ commit }, info) => {
+            commit('SET_DEVICE_INFO', info);
+        },
+        resetDeviceInfo: ({ commit }) => {
+            commit('SET_DEVICE_INFO', DEVICE_LIST[1]);
+        },
     }
 };
 

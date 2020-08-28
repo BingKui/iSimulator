@@ -16,6 +16,12 @@
                     <MenuItem :name="isTop ? '取消置顶' : '窗口置顶'" icon="Menu_Fixed" @click="setWindowTop" :isAction="isTop" />
                 </Col>
                 <Col :span="6">
+                    <MenuItem name="刷新" icon="Menu_Refresh" @click="refreshPage" />
+                </Col>
+                <Col :span="6">
+                    <MenuItem name="修改模拟设备" icon="Menu_Device" @click="openChangeDevice" />
+                </Col>
+                <Col :span="6">
                     <MenuItem name="修改UA" icon="Menu_UserAgent" @click="openSetUserAgent" />
                 </Col>
                 <Col :span="6">
@@ -33,6 +39,7 @@
         <UrlQrcode ref="urlqrcode" @closeMenu="secondaryMenuClose" />
         <UrlParam ref="urlparam" @closeMenu="secondaryMenuClose" />
         <About ref="about" @closeMenu="secondaryMenuClose" />
+        <ChangeDevice ref="changeDevice" @closeMenu="secondaryMenuClose" />
     </HalfModal>
 </template>
 
@@ -46,7 +53,8 @@ import SetUserAgent from './menu/SetUserAgent';
 import UrlQrcode from './menu/UrlQrcode';
 import UrlParam from './menu/UrlParam';
 import About from './menu/About';
-import { OpenDevTools, SetWinTop } from '@common/common';
+import ChangeDevice from './menu/ChangeDevice';
+import { OpenDevTools, SetWinTop, PageRefresh } from '@common/render';
 export default {
     name: 'Menu', // 菜单
     components: {
@@ -61,6 +69,7 @@ export default {
         UrlQrcode,
         UrlParam,
         About,
+        ChangeDevice,
     },
     data() {
         return {
@@ -86,6 +95,17 @@ export default {
         setWindowTop() {
             this.isTop = !this.isTop;
             SetWinTop(this.isTop);
+            this.closeMenu();
+        },
+        refreshPage() {
+            setTimeout(() => {
+                PageRefresh();
+            }, 300);
+            this.closeMenu();
+        },
+        openChangeDevice() {
+            this.$refs.changeDevice.show();
+            this.isNoticyShowView = false;
             this.closeMenu();
         },
         openSetUserAgent() {

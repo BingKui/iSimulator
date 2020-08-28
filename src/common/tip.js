@@ -1,7 +1,7 @@
 import { Message } from 'view-design';
 
 Message.config({
-    top: 25,
+    top: 10,
     duration: 3
 });
 

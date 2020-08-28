@@ -1,5 +1,6 @@
 import { app, BrowserWindow } from 'electron' // eslint-disable-line
-import { AddMenuList, AddDataBase, AddBrowerView, ClearAllListener } from './electron';
+import { AddMenuList, AddDataBase, ClearAllListener } from './electron';
+import { AddBrowerView } from './browerViewSupport';
 const path = require('path');
 import DB_NAME from './constants/db';
 const { port, host } = require('../electron/config');

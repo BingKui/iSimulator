@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 import { Button, Input } from 'element-ui';
 import HistoryItem from './HistoryItem';
 import ScrollBar from '@components/ScrollBar';
@@ -48,7 +49,8 @@ import ExtIcon from '@components/ExtIcon';
 import Menu from './Menu';
 import TipDialog from './TipDialog';
 import { OpenBrowserView, CloseView, BindTitleChange,
-    BindUrlChange, PageBack, HideView, ShowView, ExitApp, getClipboardValue, getPageCapture } from '@common/common';
+    BindUrlChange, PageBack, HideView, ShowView, ExitApp } from '@common/render';
+import { getClipboardValue } from '@common/common';
 import { isUrl } from '@common/utils';
 import { TipError, TipLoading } from '@common/tip';
 import { addItem, getAllItems, delItem, getItemsByCondition } from '@common/db';
@@ -90,6 +92,9 @@ export default {
         this.autoTip();
     },
     methods: {
+        ...mapActions([
+            'resetDeviceInfo',
+        ]),
         async openUrl() {
             const flag = /^((https|http)?:\/\/)/.test(this.url);
             if (isUrl(this.url)) {
@@ -138,6 +143,7 @@ export default {
             ShowView();
         },
         async close() {
+            this.resetDeviceInfo();
             await CloseView();
             Object.assign(this.$data, this.$options.data());
             await this.getAllHistory();

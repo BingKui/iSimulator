@@ -16,7 +16,7 @@
 <script>
 import HalfModal from '@components/HalfModal';
 import { createQrCode } from '@common/utils';
-import { getWebviewUrl } from '@common/common';
+import { GetWebviewUrl } from '@common/common';
 export default {
     name: 'UrlQrcode', // url转换为二维码
     components: {
@@ -30,7 +30,7 @@ export default {
     methods: {
         async show() {
             this.visible = true;
-            const url = await getWebviewUrl();
+            const url = await GetWebviewUrl();
             setTimeout(() => {
                 const el = document.querySelector('#urlqrcode');
                 createQrCode(el, url);

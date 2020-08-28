@@ -117,121 +117,6 @@ const AddDataBase = (name) => {
     });
 };
 
-const AddBrowerView = (win, app) => {
-    let view;
-    ipcMain.on('add-browerview', (event, url, condition) => {
-        console.log('执行到这里');
-        view = new BrowserView();
-        win.setBrowserView(view);
-        view.setBounds({ x: 0, y: 60, width: 375, height: 667 });
-        view.webContents.loadURL(url);
-        view.webContents.enableDeviceEmulation({
-            screenPosition: 'mobile',
-            screenSize: {
-                width: 375,
-                height: 667,
-            },
-            viewSize: {
-                width: 375,
-                height: 667,
-            },
-            viewPosition: {
-                x: 0,
-                y: 0,
-            },
-            deviceScaleFactor: 100,
-            scale: 1,
-        });
-        const contents = view.webContents;
-        if (!contents.debugger.isAttached()) {
-            contents.debugger.attach('1.3');
-        }
-        // console.log(contents, id);
-        if (!contents) {
-            console.log('null contents');
-            return;
-        }
-        contents.debugger.sendCommand('Emulation.setEmitTouchEventsForMouse', { enabled: true }, (error, result) => {
-            console.log('setEmitTouchEventsForMouse', error, result);
-        });
-        contents.debugger.sendCommand('Emulation.setTouchEmulationEnabled', {
-            enabled: true,
-            configuration: 'mobile',
-        }, (error, result) => {
-            console.log('setTouchEmulationEnabled', error, result);
-        });
-        contents.on('page-title-updated', (e, title, explicitSet) => {
-            event.sender.send('title-change', title);
-        });
-        contents.on('did-navigate', (e, url) => {
-            event.sender.send('url-change', contents.canGoBack());
-        });
-
-        view.webContents.on('did-finish-load', () => {
-            event.sender.send('add-browerview-result', true);
-        });
-    });
-    ipcMain.on('open-devtools', (event, url, condition) => {
-        view.webContents.openDevTools({
-            mode: 'undocked',
-            activate: true,
-        });
-        view.webContents.executeJavaScript('console.clear();');
-    });
-    ipcMain.on('hide-view', (event, url, condition) => {
-        view.setBounds({
-            x: 0,
-            y: 60,
-            width: 0,
-            height: 0,
-        });
-    });
-    ipcMain.on('show-view', (event, url, condition) => {
-        view.setBounds({
-            x: 0,
-            y: 60,
-            width: 375,
-            height: 667,
-        });
-    });
-    ipcMain.on('close', (event, url, condition) => {
-        if (view && view.webContents.isDevToolsOpened()) {
-            view.webContents.closeDevTools();
-        }
-        win.removeBrowserView(view);
-        event.sender.send('close-result', true);
-    });
-    ipcMain.on('back', (event, url, condition) => {
-        view.webContents.goBack();
-    });
-    ipcMain.on('set-mobile', (event, url, condition) => {
-        view.webContents.enableDeviceEmulation({
-            screenPosition: 'mobile',
-        });
-    });
-    ipcMain.on('set-window-fixed', (event, flag=false, condition) => {
-        // 置顶
-        win.setAlwaysOnTop(flag, 'screen-saver', 10);
-    });
-    // 退出
-    ipcMain.on('exit-app', (event) => {
-        app.exit();
-    });
-    ipcMain.on('get-capture-page', async (event) => {
-        console.log('通知截图');
-        const image = await view.webContents.capturePage();
-        console.log('获得的截图为：', image);
-    });
-    ipcMain.on('menu-set-ua', (event, userAgent) => {
-        view.webContents.setUserAgent(userAgent);
-        event.sender.send('menu-set-ua-result', true);
-    });
-    ipcMain.on('get-url', (event) => {
-        const url = view.webContents.getURL();
-        event.sender.send('get-url-result', url);
-    });
-};
-
 /**
  * 清除所有监听
  */
@@ -244,6 +129,5 @@ module.exports = {
     AddShortcuts,
     AddMenuList,
     AddDataBase,
-    AddBrowerView,
     ClearAllListener,
 };
