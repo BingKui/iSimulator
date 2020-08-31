@@ -62,7 +62,9 @@ app.on('before-quit', () => {
 });
 
 app.on('window-all-closed', () => {
-    app.quit();
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
 });
 
 app.on('activate', () => {
