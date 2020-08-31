@@ -21,9 +21,9 @@
                 <Col :span="6">
                     <MenuItem name="修改模拟设备" icon="Menu_Device" @click="openChangeDevice" />
                 </Col>
-                <Col :span="6">
+                <!-- <Col :span="6">
                     <MenuItem name="修改UA" icon="Menu_UserAgent" @click="openSetUserAgent" />
-                </Col>
+                </Col> -->
                 <Col :span="6">
                     <MenuItem name="二维码" icon="Menu_Qrcode" @click="openUrlQrcode" />
                 </Col>
@@ -55,6 +55,7 @@ import UrlParam from './menu/UrlParam';
 import About from './menu/About';
 import ChangeDevice from './menu/ChangeDevice';
 import { OpenDevTools, SetWinTop, PageRefresh } from '@common/render';
+import { TipSuccess } from '@common/tip';
 export default {
     name: 'Menu', // 菜单
     components: {
@@ -98,8 +99,9 @@ export default {
             this.closeMenu();
         },
         refreshPage() {
-            setTimeout(() => {
-                PageRefresh();
+            setTimeout(async () => {
+                const flag = await PageRefresh();
+                if (flag) TipSuccess('刷新成功！');
             }, 300);
             this.closeMenu();
         },

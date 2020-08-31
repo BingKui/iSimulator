@@ -16,7 +16,7 @@
 <script>
 import HalfModal from '@components/HalfModal';
 import { createQrCode } from '@common/utils';
-import { GetWebviewUrl } from '@common/common';
+import { GetWebviewUrl } from '@common/render';
 export default {
     name: 'UrlQrcode', // url转换为二维码
     components: {

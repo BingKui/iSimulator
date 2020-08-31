@@ -22,11 +22,6 @@ export const PageBack = () => {
     ipcRenderer.send(ACTION_KEY.back);
 };
 
-export const PageRefresh = () => {
-    console.log('PageRefresh');
-    ipcRenderer.send(ACTION_KEY.pageRefresh);
-};
-
 export const SetWinTop = (flag) => {
     ipcRenderer.send(ACTION_KEY.fixed, flag);
 };
@@ -40,6 +35,19 @@ export const ShowView = () => {
 
 export const ExitApp = () => {
     ipcRenderer.send(ACTION_KEY.exit);
+};
+
+export const PageRefresh = () => {
+    ipcRenderer.send(ACTION_KEY.pageRefresh);
+    return new Promise((reslove, reject) => {
+        ipcRenderer.once(`${ACTION_KEY.pageRefresh}${ACTION_RESULT}`, (event, flag) => {
+            if (flag) {
+                reslove(flag);
+            } else {
+                reject();
+            }
+        });
+    });
 };
 
 export const CloseView = () => {

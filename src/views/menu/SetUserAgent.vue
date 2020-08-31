@@ -21,7 +21,7 @@
 <script>
 import { Drawer, Row, Col, Tag, Divider, Button, Input } from 'element-ui';
 import { USERAGENT_LIST } from '@constants/ua';
-import { SetUserAgent } from '@common/common';
+import { SetUserAgent } from '@common/render';
 import HalfModal from '@components/HalfModal';
 export default {
     name: 'SetUserAgent', // 设置UA
@@ -51,7 +51,6 @@ export default {
             this.$emit('closeMenu');
         },
         async setUserAgentAction(value) {
-            console.log('设置UA==>', value);
             await SetUserAgent(value);
             this.close();
         },

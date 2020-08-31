@@ -34,7 +34,6 @@ const setWindowInfo = (win, info) => {
 };
 
 const setViewInfo = (view, info) => {
-    console.log('setViewInfo', info);
     view.setBounds({ x: 0, y: 60, width: info.width, height: info.height });
     view.webContents.enableDeviceEmulation({
         screenPosition: 'mobile',
@@ -75,14 +74,16 @@ const setMouseActive = (contents) => {
 };
 
 export const AddBrowerView = (win, app) => {
-    const view = new BrowserView();
-    const contents = view.webContents;
+    let view;
     // 监听打开新的 browerview
     ipcMain.on(ACTION_KEY.open, (event_top, url) => {
+        view = new BrowserView();
+        const contents = view.webContents;
         win.setBrowserView(view);
         contents.loadURL(url);
         setWindowInfo(win, { width: 375, height: 667 });
         setViewInfo(view, { width: 375, height: 667 });
+        contents.setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1');
         setMouseActive(contents);
         contents.on('page-title-updated', (e, title, explicitSet) => {
             event_top.sender.send(ACTION_KEY.title, title);
@@ -96,8 +97,8 @@ export const AddBrowerView = (win, app) => {
     });
     // 监听关闭事件
     ipcMain.on(ACTION_KEY.close, (event, url, condition) => {
-        if (view && contents.isDevToolsOpened()) {
-            contents.closeDevTools();
+        if (view && view.webContents.isDevToolsOpened()) {
+            view.webContents.closeDevTools();
         }
         win.removeBrowserView(view);
         setWindowInfo(win, { width: 375, height: 667 });
@@ -105,15 +106,15 @@ export const AddBrowerView = (win, app) => {
     });
     // 监听打开开发工具事件
     ipcMain.on(ACTION_KEY.openDevTools, (event, url, condition) => {
-        if (contents.isDevToolsOpened()) {
-            contents.toggleDevTools();
+        if (view.webContents.isDevToolsOpened()) {
+            view.webContents.toggleDevTools();
             return;
         }
-        contents.openDevTools({
+        view.webContents.openDevTools({
             mode: 'undocked',
             activate: true,
         });
-        contents.executeJavaScript('console.clear();');
+        view.webContents.executeJavaScript('console.clear();');
     });
     let hideBounds = {};
     // 绑定隐藏事件
@@ -127,7 +128,7 @@ export const AddBrowerView = (win, app) => {
     });
     // 监听返回事件
     ipcMain.on(ACTION_KEY.back, (event, url, condition) => {
-        contents.goBack();
+        view.webContents.goBack();
     });
     // 监听置顶事件
     ipcMain.on(ACTION_KEY.fixed, (event, flag=false, condition) => {
@@ -140,21 +141,21 @@ export const AddBrowerView = (win, app) => {
     });
     // 监听设置ua事件
     ipcMain.on(ACTION_KEY.ua, (event, userAgent) => {
-        contents.setUserAgent(userAgent);
+        view.webContents.setUserAgent(userAgent);
         event.sender.send(`${ACTION_KEY.ua}${ACTION_RESULT}`, true);
     });
     // 监听获取url事件
-    ipcMain.on(ACTION_KEY.getURL, (event) => {
-        const url = contents.getURL();
-        event.sender.send(`${ACTION_KEY.getURL}${ACTION_RESULT}`, url);
+    ipcMain.on(ACTION_KEY.getUrl, (event) => {
+        const url = view.webContents.getURL();
+        event.sender.send(`${ACTION_KEY.getUrl}${ACTION_RESULT}`, url);
     });
     // 监听刷新事件
     ipcMain.on(ACTION_KEY.pageRefresh, (event) => {
-        contents.reload();
+        view.webContents.reload();
+        event.sender.send(`${ACTION_KEY.pageRefresh}${ACTION_RESULT}`, true);
     });
     // 监听修改设备
     ipcMain.on(ACTION_KEY.device, (event, info) => {
-        console.log('监听到修改设备信息', info);
         try {
             const param = {
                 width: parseInt(info.width),
@@ -162,7 +163,7 @@ export const AddBrowerView = (win, app) => {
             };
             setWindowInfo(win, param);
             setViewInfo(view, param);
-            contents.setUserAgent(info.ua);
+            view.webContents.setUserAgent(info.ua);
             event.sender.send(`${ACTION_KEY.device}${ACTION_RESULT}`, true);
         } catch (error) {
             event.sender.send(`${ACTION_KEY.device}${ACTION_RESULT}`, false);

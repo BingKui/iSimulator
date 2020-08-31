@@ -5,7 +5,7 @@
         :visible.sync="visible"
         :appendToBody="true"
         customClass="v-about"
-        size="550px"
+        size="350px"
         @halfClosed="drawerClosed"
     >
         <div class="about-content">
@@ -13,6 +13,7 @@
             <div class="name">{{pkg.name}}</div>
             <div class="version">Version {{pkg.version}}</div>
             <div class="desc">{{pkg.description}}</div>
+            <div class="copy">Copyright © 2020 {{pkg.author}}. All rights reserved.</div>
         </div>
     </HalfModal>
 </template>
@@ -50,7 +51,7 @@ export default {
 <style lang="less">
 .v-about {
     .about-content {
-        height: calc(@half-height - @half-header-height);
+        height: calc(350px - @half-header-height);
         width: 100%;
         .flex-column-center();
         .logo {
@@ -68,7 +69,13 @@ export default {
         }
         .desc {
             color: @tip-color;
-            .m-t(@gap);
+            .m-t(@gap-sm);
+            font-size: @font-size-sm;
+        }
+        .copy {
+            color: @gray-dark;
+            .m-t(@gap-sm);
+            font-size: @font-size-sm;
         }
     }
 }

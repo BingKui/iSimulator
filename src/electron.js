@@ -108,7 +108,6 @@ const AddDataBase = (name) => {
     });
     ipcMain.on(`${name}-find`, (event, condition) => {
         db.find(condition, (err, docs) => {
-            console.log(err, docs);
             if (err) {
                 event.sender.send(`${name}-find-result`, false);
             }

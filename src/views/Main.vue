@@ -99,7 +99,6 @@ export default {
             const flag = /^((https|http)?:\/\/)/.test(this.url);
             if (isUrl(this.url)) {
                 await this.openBrowser();
-                console.log(this.url);
                 // 查询是否已经保存到本地
                 const res = await getItemsByCondition(DB_NAME.history, { url: this.url });
                 // 本地数据库添加记录
