@@ -1,6 +1,6 @@
 <div align="center">
 
-![iEmnlator](../iSimulator/src/assets/logo.png)
+![iEmnlator](./src/assets/logo.png)
 
 <p align="center" style="font-size: 20px;font-weight: bold;">
 iSimulator
@@ -27,32 +27,34 @@ iSimulator
 
 **首页监听粘贴板**
 
-![](../iSimulator/images/1.png)
+![](./images/1.png)
 
 **历史记录**
 
-![](../iSimulator/images/2.png)
+![](./images/2.png)
 
 **打开效果**
 
-![](../iSimulator/images/3.png)
+![](./images/3.png)
 
 **菜单**
 
-![](../iSimulator/images/4.png)
+![](./images/9.png)
+
+![](./images/4.png)
 
 **DevTools**
 
-![](../iSimulator/images/5.png)
+![](./images/5.png)
 
 **二维码**
 
-![](../iSimulator/images/6.png)
+![](./images/6.png)
 
 **Url地址以及参数列表**
 
-![](../iSimulator/images/7.png)
+![](./images/7.png)
 
 **修改模拟设备**
 
-![](../iSimulator/images/8.png)
+![](./images/8.png)

@@ -96,6 +96,7 @@ export default {
             this.visible = false;
         },
         drawerClosed() {
+            if (this.isApp) return;
             this.isNoticyShowView && this.$emit('menuClose');
         },
         openTools() {
