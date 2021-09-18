@@ -10,29 +10,33 @@
         <ScrollBar class="menu-list">
             <Row class="menu-content">
                 <Col :span="6">
-                    <MenuItem name="DevTools" icon="Menu_Devtools" @click="openTools" />
-                </Col>
-                <Col :span="6">
                     <MenuItem :name="isTop ? '取消置顶' : '窗口置顶'" icon="Menu_Fixed" @click="setWindowTop" :isAction="isTop" />
                 </Col>
-                <Col :span="6">
-                    <MenuItem name="刷新" icon="Menu_Refresh" @click="refreshPage" />
-                </Col>
-                <Col :span="6">
-                    <MenuItem name="修改模拟设备" icon="Menu_Device" @click="openChangeDevice" />
-                </Col>
-                <!-- <Col :span="6">
-                    <MenuItem name="修改UA" icon="Menu_UserAgent" @click="openSetUserAgent" />
-                </Col> -->
-                <Col :span="6">
-                    <MenuItem name="二维码" icon="Menu_Qrcode" @click="openUrlQrcode" />
-                </Col>
-                <Col :span="6">
-                    <MenuItem name="Url" icon="Menu_Url" @click="openUrlParam" />
-                </Col>
-                <Col :span="6">
-                    <MenuItem name="关于" icon="Menu_About" @click="openAbout" />
-                </Col>
+                <template v-if="isApp">
+                    <Col :span="6">
+                        <MenuItem name="更新日志" icon="Menu_ChangeLog" @click="openChangeLog" />
+                    </Col>
+                    <Col :span="6">
+                        <MenuItem name="关于" icon="Menu_About" @click="openAbout" />
+                    </Col>
+                </template>
+                <template v-else>
+                    <Col :span="6">
+                        <MenuItem name="DevTools" icon="Menu_Devtools" @click="openTools" />
+                    </Col>
+                    <Col :span="6">
+                        <MenuItem name="刷新" icon="Menu_Refresh" @click="refreshPage" />
+                    </Col>
+                    <Col :span="6">
+                        <MenuItem name="修改模拟设备" icon="Menu_Device" @click="openChangeDevice" />
+                    </Col>
+                    <Col :span="6">
+                        <MenuItem name="二维码" icon="Menu_Qrcode" @click="openUrlQrcode" />
+                    </Col>
+                    <Col :span="6">
+                        <MenuItem name="Url" icon="Menu_Url" @click="openUrlParam" />
+                    </Col>
+                </template>
             </Row>
         </ScrollBar>
         <SetUserAgent ref="setUserAgent" @closeMenu="secondaryMenuClose" />
@@ -40,6 +44,7 @@
         <UrlParam ref="urlparam" @closeMenu="secondaryMenuClose" />
         <About ref="about" @closeMenu="secondaryMenuClose" />
         <ChangeDevice ref="changeDevice" @closeMenu="secondaryMenuClose" />
+        <ChangeLog ref="changelog" @closeMenu="secondaryMenuClose" />
     </HalfModal>
 </template>
 
@@ -54,6 +59,7 @@ import UrlQrcode from './menu/UrlQrcode';
 import UrlParam from './menu/UrlParam';
 import About from './menu/About';
 import ChangeDevice from './menu/ChangeDevice';
+import ChangeLog from './menu/ChangeLog';
 import { OpenDevTools, SetWinTop, PageRefresh } from '@common/render';
 import { TipSuccess } from '@common/tip';
 export default {
@@ -71,16 +77,19 @@ export default {
         UrlParam,
         About,
         ChangeDevice,
+        ChangeLog,
     },
     data() {
         return {
             visible: false,
             isTop: false,
+            isApp: false,
             isNoticyShowView: true,
         };
     },
     methods: {
-        showMenu() {
+        showMenu(isApp = false) {
+            this.isApp = isApp;
             this.visible = true;
         },
         closeMenu() {
@@ -131,6 +140,11 @@ export default {
         },
         openAbout() {
             this.$refs.about.show();
+            this.isNoticyShowView = false;
+            this.closeMenu();
+        },
+        openChangeLog() {
+            this.$refs.changelog.show();
             this.isNoticyShowView = false;
             this.closeMenu();
         },

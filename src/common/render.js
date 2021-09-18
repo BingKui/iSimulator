@@ -2,6 +2,10 @@
 import { ipcRenderer } from 'electron';
 import { ACTION_KEY, ACTION_RESULT } from '@constants/action';
 
+/**
+ * 通过BrowserView打开地址
+ * @param {String} url 地址
+ */
 export const OpenBrowserView = (url) => {
     ipcRenderer.send(ACTION_KEY.open, url);
     return new Promise((reslove, reject) => {
@@ -14,35 +18,52 @@ export const OpenBrowserView = (url) => {
         });
     });
 };
+
+/**
+ * 打开开发工具
+ */
 export const OpenDevTools = () => {
     ipcRenderer.send(ACTION_KEY.openDevTools);
 };
 
+/**
+ * 页面返回
+ */
 export const PageBack = () => {
     ipcRenderer.send(ACTION_KEY.back);
 };
 
+/**
+ * 设置窗口置顶
+ * @param {Boolean} flag 是否置顶
+ */
 export const SetWinTop = (flag) => {
     ipcRenderer.send(ACTION_KEY.fixed, flag);
 };
 
+/**
+ * 隐藏显示界面
+ */
 export const HideView = () => {
     ipcRenderer.send(ACTION_KEY.hide);
 };
+
+/**
+ * 展示界面
+ */
 export const ShowView = () => {
     ipcRenderer.send(ACTION_KEY.show);
 };
 
-export const ExitApp = () => {
-    ipcRenderer.send(ACTION_KEY.exit);
-};
-
-export const PageRefresh = () => {
-    ipcRenderer.send(ACTION_KEY.pageRefresh);
+/**
+ * 关闭界面
+ */
+export const CloseView = () => {
+    ipcRenderer.send(ACTION_KEY.close);
     return new Promise((reslove, reject) => {
-        ipcRenderer.once(`${ACTION_KEY.pageRefresh}${ACTION_RESULT}`, (event, flag) => {
-            if (flag) {
-                reslove(flag);
+        ipcRenderer.once(`${ACTION_KEY.close}${ACTION_RESULT}`, (event, result) => {
+            if (result) {
+                reslove(result);
             } else {
                 reject();
             }
@@ -50,12 +71,22 @@ export const PageRefresh = () => {
     });
 };
 
-export const CloseView = () => {
-    ipcRenderer.send(ACTION_KEY.close);
+/**
+ * 退出APP
+ */
+export const ExitApp = () => {
+    ipcRenderer.send(ACTION_KEY.exit);
+};
+
+/**
+ * 刷新界面
+ */
+export const PageRefresh = () => {
+    ipcRenderer.send(ACTION_KEY.pageRefresh);
     return new Promise((reslove, reject) => {
-        ipcRenderer.once(`${ACTION_KEY.close}${ACTION_RESULT}`, (event, result) => {
-            if (result) {
-                reslove(result);
+        ipcRenderer.once(`${ACTION_KEY.pageRefresh}${ACTION_RESULT}`, (event, flag) => {
+            if (flag) {
+                reslove(flag);
             } else {
                 reject();
             }
@@ -128,19 +159,26 @@ export const GetWebviewUrl = () => {
     });
 };
 
+/**
+ * 获取页面截图
+ */
 export const getPageCapture = () => {
     ipcRenderer.send('get-capture-page');
-    // return new Promise((reslove, reject) => {
-    //     ipcRenderer.once('get-capture-page-result', (event, result) => {
-    //         if (result) {
-    //             reslove(result);
-    //         } else {
-    //             reject();
-    //         }
-    //     });
-    // });
+    return new Promise((reslove, reject) => {
+        ipcRenderer.once('get-capture-page-result', (event, result) => {
+            if (result) {
+                reslove(result);
+            } else {
+                reject();
+            }
+        });
+    });
 };
 
+/**
+ * 通过id获取所有contents
+ * @param {String} id contentid
+ */
 export const getAllContents = (id) => {
     ipcRenderer.send('get-webcontents', id);
     return new Promise((reslove, reject) => {

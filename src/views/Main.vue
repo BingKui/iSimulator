@@ -14,9 +14,14 @@
                         <ExtIcon name="Header_Close" @click="close" title="关闭" :size="18" />
                     </div>
                 </template>
-                <div v-else class="menu-item">
-                    <ExtIcon name="Header_Exit" @click="exitApp" title="退出应用" :size="18" />
-                </div>
+                <template v-else>
+                    <div class="menu-item">
+                        <ExtIcon name="Header_Menu" @click="openAppMenu" title="菜单" :size="18" />
+                    </div>
+                    <div class="menu-item">
+                        <ExtIcon name="Header_Exit" @click="exitApp" title="退出应用" :size="18" />
+                    </div>
+                </template>
             </div>
         </div>
         <div class="main-content" v-if="!isOpened">
@@ -133,6 +138,9 @@ export default {
         },
         goback() {
             PageBack();
+        },
+        openAppMenu() {
+            this.$refs.menu.showMenu(true);
         },
         openMenu() {
             HideView();

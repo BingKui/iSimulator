@@ -7,6 +7,11 @@ export const isUrl = (str) => {
     return /^((https|http)?:\/\/)/.test(str);
 };
 
+/**
+ * 生成二维码
+ * @param {Object} canvas Cavas对象
+ * @param {String} value 内容
+ */
 export const createQrCode = (canvas, value) => {
     if (canvas) {
         QR.toCanvas(canvas, value, {

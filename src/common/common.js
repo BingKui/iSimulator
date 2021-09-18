@@ -9,10 +9,16 @@ export const Copy = (text) => {
     clipboard.writeText(text, 'c-t');
 };
 
+/**
+ * 粘贴内容
+ */
 export const PasteValue = () => {
     return clipboard.readText('c-t');
 };
 
+/**
+ * 获取粘贴板内容
+ */
 export const getClipboardValue = () => {
     return clipboard.readText();
 };
