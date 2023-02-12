@@ -36,9 +36,9 @@ function createWindow() {
             webviewTag: true,
         },
     });
-    if (isDev) {
-        mainWindow.webContents.openDevTools();
-    }
+    // if (isDev) {
+    //     mainWindow.webContents.openDevTools();
+    // }
 
     mainWindow.loadURL(winURL);
 

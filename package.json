@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node ./electron/dev.js",
     "build": "node ./electron/build.js",
-    "pack": "node ./electron/build.js && cross-env electron-builder"
+    "pack": "node ./electron/build.js && cross-env electron-builder",
+    "demo": "npx http-server ./test -p 8888"
   },
   "repository": {
     "type": "git",
