@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron' // eslint-disable-line
+import { app, BrowserWindow } from 'electron'; // eslint-disable-line
 import { AddMenuList, AddDataBase, ClearAllListener } from './electron';
 import { AddBrowerView } from './browerViewSupport';
 const path = require('path');
@@ -6,7 +6,7 @@ import DB_NAME from './constants/db';
 const { port, host } = require('../electron/config');
 
 if (process.env.NODE_ENV !== 'development') {
-    global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\') // eslint-disable-line
+    global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\'); // eslint-disable-line
 }
 const logo = path.resolve(__dirname, './assets/logo.png');
 
@@ -29,6 +29,7 @@ function createWindow() {
         titleBarStyle: 'default',
         backgroundColor: 'none',
         thickFrame: false,
+        type: 'panel',
         webPreferences: {
             devTools: isDev ? true : false,
             scrollBounce: false,

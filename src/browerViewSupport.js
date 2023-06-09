@@ -132,9 +132,12 @@ export const AddBrowerView = (win, app) => {
         view.webContents.goBack();
     });
     // 监听置顶事件
-    ipcMain.on(ACTION_KEY.fixed, (event, flag=false, condition) => {
+    ipcMain.on(ACTION_KEY.fixed, (event, flag = false, condition) => {
         // 置顶
         win.setAlwaysOnTop(flag);
+        win.setVisibleOnAllWorkspaces(flag, {
+            visibleOnFullScreen: flag,
+        });
     });
     // 监听退出事件
     ipcMain.on(ACTION_KEY.exit, (event) => {
